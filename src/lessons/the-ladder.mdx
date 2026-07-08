@@ -1,0 +1,18 @@
+import Toy from "../toys/Toy";
+import { ladderIntro } from "../guidance/guides";
+
+export const meta = {
+  id: "the-ladder", square: 9, title: "The Ladder",
+  completeWhen: { toy: "move-ladder", event: "guideFinished" },
+};
+
+# 9 · The Ladder
+
+Melodies aren't made of notes. They're made of **moves**. Seven words, one syllable each:
+
+**scoot · step · hop · skip · jump · leap · fly**
+
+<Toy id="move-ladder" mode="guided" guide={ladderIntro} />
+
+One word per distance — up or down is shown with your hand. (Secret for later: a leap up
+and a jump down land on the same *kind* of note. Same family, opposite doors.)

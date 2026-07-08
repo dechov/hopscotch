@@ -1,0 +1,29 @@
+import Toy from "../toys/Toy";
+
+export const meta = {
+  id: "make-a-sound", square: 11, title: "Make a Sound",
+  completeWhen: { toy: "tone-forge", event: "noteOn" },
+};
+
+# 11 · Make a Sound
+
+Every sound has a **life**: how it's born (attack), how it settles (decay + sustain),
+how it says goodbye (release). Sculpt one:
+
+<Toy id="tone-forge" />
+
+Missions:
+- Make a **pluck** (born instantly, dies fast) — then make a **foghorn** (slow birth, never leaves).
+- Turn up **dirt** and watch square 1 come back: distortion is just *extra helpers*.
+- Slide **harmonicity** off a whole number — hear the sound turn bell-clangy. That's rest-or-lean
+  happening *inside* a single note.
+
+## Now pluck a real(ish) string
+
+The Forge builds sounds from knobs. Nature builds them from **physics**:
+
+<Toy id="pluck-string" size="inline" />
+
+Where you pluck decides which helpers ring — that's why picking near the bridge sounds
+twangy and over the neck sounds round. And touching at 1/2 while plucking? That's the
+bell-like *harmonic* guitarists show off with. Go try it on the real guitar right now.

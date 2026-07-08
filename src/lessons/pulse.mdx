@@ -1,0 +1,25 @@
+import Toy from "../toys/Toy";
+
+export const meta = {
+  id: "pulse", square: 10, title: "Pulse",
+  completeWhen: { toy: "pulse-grid", event: "barLooped" },
+};
+
+# 10 · Pulse
+
+Time in music is just **boxes**. Fill a box, it plays. March around the room while it loops —
+your feet are the grid.
+
+<Toy id="pulse-grid" dials={{ playing: false }} />
+
+Start with boom on 1 and 5. Add claps on 3 and 7 — that's half of pop music already.
+Leave the **lean** knob at zero for now… that's square 15's secret.
+
+## Bonus: the secret at the bottom of the beat
+
+What happens if the pulse gets faster… and faster… and *faster*?
+
+<Toy id="speed-trick" size="inline" />
+
+Hold on to that one. It means the time squares and the sound squares on this court
+were never two different games.

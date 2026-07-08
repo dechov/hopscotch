@@ -1,0 +1,22 @@
+import Toy from "../toys/Toy";
+
+export const meta = {
+  id: "knobs", square: 15, title: "Lean the Time",
+  completeWhen: { toy: "pulse-grid", event: "barLooped" },
+};
+
+# 15 · Lean the Time
+
+Square 2 taught you that *pitch* can rest or lean. Here's the twist: **time can lean too.**
+
+<Toy id="pulse-grid" dials={{ swing: 0 }} />
+
+Fill in a simple pattern, then slowly raise the **lean** knob while it loops.
+The boxes never change — but the groove wakes up. That's **swing**.
+
+Same idea, different knob — a sound can lean as well:
+
+<Toy id="tone-forge" size="inline" dials={{ dirt: 0.35, wobbleDepth: 0.15 }} />
+
+Straight vs. swung, clean vs. dirty, still vs. wobbly. None of them is "right."
+They're **flavors of lean**, and now you own the knobs.

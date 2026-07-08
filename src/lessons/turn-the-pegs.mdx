@@ -1,0 +1,19 @@
+import Toy from "../toys/Toy";
+import { pegsByEar } from "../guidance/guides";
+
+export const meta = {
+  id: "turn-the-pegs", square: 8, title: "Turn the Pegs",
+  completeWhen: { toy: "tune-it", event: "lockAchieved" },
+};
+
+# 8 · Turn the Pegs *(regroup)*
+
+Square 4, but for real: **no meter**. This is exactly what tuning a guitar is.
+
+<Toy id="tune-it" mode="guided" guide={pegsByEar} dials={{ meter: false }} />
+
+## Now the real instrument
+
+Grab the guitar. Pick ONE string. **Loosen it a little** (never tighten — strings forgive
+loose, not tight). Now play it together with its neighbor and turn the peg until the wobble
+slows… slows… stops. You just tuned by ear. The meter app can retire.

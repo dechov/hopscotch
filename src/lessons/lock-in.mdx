@@ -1,0 +1,30 @@
+import Toy from "../toys/Toy";
+import { bendTour } from "../guidance/guides";
+
+export const meta = {
+  id: "lock-in", square: 4, title: "Lock In",
+  completeWhen: { toy: "tune-it", event: "lockAchieved" },
+};
+
+# 4 · Lock In *(regroup)*
+
+Everything so far in one skill: make the wobble die **on purpose**.
+
+<Toy id="tune-it" />
+
+## The fret is a compromise
+
+Pianos and frets chop the octave into 12 equal squares so every key works.
+But the *pure* resting spots live between the squares. Bend past the fret and find them:
+
+<Toy id="bend-meter" mode="guided" guide={bendTour} />
+
+Hear the compromise directly — the piano's chord next to the pure one:
+
+<Toy id="keys-vs-pure" size="inline" />
+
+Nobody's wrong here. The grid trades a little purity for endless flexibility.
+Benders and singers get to visit the pure spots anyway.
+
+*Grown-ups: the shed has a toy called **The Drift** — pure chords that sink forever.
+It's the 500-year-old reason the compromise in this lesson had to be invented.*

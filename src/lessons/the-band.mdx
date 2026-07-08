@@ -1,0 +1,25 @@
+import Toy from "../toys/Toy";
+import { Link } from "react-router-dom";
+
+export const meta = {
+  id: "the-band", square: "band", title: "The Band",
+  completeWhen: { toy: "chord-bed", event: "loopCompleted" },
+};
+
+# 🎵 The Band — 12-Bar Blues
+
+The sky at the top of the court. The 12-bar blues is the world's friendliest song form:
+three chords, twelve bars, and the moody Five sounds *great* on top of all of them.
+
+<Toy id="chord-bed" dials={{ progression: "blues12", voicing: "triad", tempo: 84 }} />
+
+Solo on top — A minor flavor, guitar surface (this is why guitarists love open strings):
+
+<Toy id="drone-pad" dials={{ drone: false, scale: "five-minor", home: "57", surface: "frets", stickers: false }} />
+
+Jobs: ground · soloist · pulse (grab a Pulse Grid from the Shed) · singer.
+Trade every 12 bars. **Rules of the band:** mistakes are just leans — resolve them;
+nobody stops; land Home together on the last bar.
+
+When you've jammed it, take your riff into the <Link to="/daw">Treehouse</Link> and
+build it into a piece you can keep, version, and hand to someone else to remix.

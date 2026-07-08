@@ -1,0 +1,28 @@
+import Toy from "../toys/Toy";
+import { lockInIntro } from "../guidance/guides";
+
+export const meta = {
+  id: "rest-or-lean", square: 2, title: "Rest or Lean",
+  completeWhen: { toy: "two-tone", event: "guideFinished" },
+};
+
+# 2 · Rest or Lean
+
+Two sounds can **rest** together, or **lean** on each other and wobble.
+Your ears already know the difference — find it with your hands.
+
+<Toy id="two-tone" mode="guided" guide={lockInIntro} locked={["rootHz"]} />
+
+## Why does the wobble die?
+
+When it rests, the two waves have found a **simple relationship** — like 3:2, a **leap**.
+Here's the whole family of resting spots:
+
+<Toy id="ratio-zoo" size="inline" />
+
+Want to *see* the wobble? These dots spin at each sound's speed and flash when they line up:
+
+<Toy id="wobble-scope" size="inline" />
+
+**The big idea of the whole court:** simple relationships rest; complicated ones lean.
+Music is the game of choosing when to do which.

@@ -1,0 +1,17 @@
+import Toy from "../toys/Toy";
+import { flavorIntro } from "../guidance/guides";
+
+export const meta = {
+  id: "flavor", square: 7, title: "Bright & Moody",
+  completeWhen: { toy: "drone-pad", event: "guideFinished" },
+};
+
+# 7 · Bright & Moody
+
+Same five notes. Two completely different worlds. The only thing that changes is
+**which note is Home**.
+
+<Toy id="drone-pad" mode="guided" guide={flavorIntro} />
+
+Grown-ups call these **major** (bright) and **minor** (moody). You don't need the words
+yet — you need the *feeling*. Home is not just a place; it's a point of view.
