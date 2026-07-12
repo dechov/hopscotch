@@ -21,22 +21,23 @@ bundle) has been verified. That's the honest starting point. In priority order:
 
 ## Built (see docs/TOY_CATALOG.md for the full list)
 
-All 18 lessons, all 24 toys (incl. the Tone Ruler — the log-frequency instrument ruler),
-the court/shed/treehouse pages, MIDI input (Drone Pad, Tone Forge, Earshot), master
-volume/mute, the `?debug=1` overlay, and the treehouse's checkpoints/branching/
-export-import/swing.
+All 18 lessons, all 24 toys (incl. the Tone Ruler — the log-frequency instrument ruler with
+an any-N EDO snap dial), the court/shed/treehouse pages, MIDI input (Drone Pad, Tone Forge,
+Earshot), master volume/mute, the `?debug=1` overlay, and the treehouse's checkpoints/
+branching/export-import/swing **plus its log-pitch canvas view** — the lead track can be
+edited either as the classic pentatonic boxes or on a continuous log₂(frequency) canvas
+(snap: High Five / 12-EDO / free), with old boolean-grid pieces migrated on load (see
+DECISIONS.md §9).
 
 ## Designed but not built
 
-- **Treehouse log-frequency note view** — the treehouse should be able to visualize playback
-  (and eventually accept input) on the same log₂(frequency) ruler the Tone Ruler toy uses.
-  Phasing decided when the Tone Ruler was built: (1) the toy itself — **built**; (2) a
-  read-only ruler view in the treehouse that lights up notes during playback — cheap, since a
-  piano roll already *is* a log-frequency plot (equal row heights = equal semitones), it mostly
-  needs honest axis labeling in Hz; (3) continuous-pitch *input* in pieces — deliberately last,
-  because arbitrary frequencies change the piece doc format (e.g. midi + cents offset per note)
-  and touch DECISIONS.md §9's structured-MIDI-first commit/diff model, so it needs a real
-  format design, not a drive-by change. Don't start (3) before the ear-testing pass below.
+- **Lesson-gated unlocks for tunings/scales** — tunings and snap options (N-EDO, just
+  intonation, exotic scales) should be introduced when their concept comes up in a lesson and
+  then "unlock" in the relevant toys. Proposed mechanism (not built): an optional
+  `unlockedBy: lessonId` field on a `DialSpec` option; the `Dials` component checks the
+  Zustand progress store and renders locked options greyed with a "found in square N" hint;
+  guided mode may still `set` a locked option so a lesson can demo it before unlocking.
+  Which option maps to which square is a pedagogy decision — decide per option, don't bulk-gate.
 
 - **Suggestions between treehouse collaborators** — PR-style: one band member proposes a
   change to another's piece, the owner reviews and merges (or doesn't), rather than direct

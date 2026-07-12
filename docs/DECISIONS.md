@@ -104,6 +104,12 @@ debug overlay, guided locking, and Shed free-mode all only see dials.
 - A **Piece** has a list of **Commits** (`{id, ts, message, doc}`), each a full snapshot of the
   grid state — not a diff-based history. This is deliberately simple (v1: localStorage, small
   data volumes) over anything like CRDT/operational-transform.
+- **Lead notes are events, not a boolean grid** (since the log-pitch canvas landed): `lead` is
+  `{s: step, m: midi}[]` where `m` may be **fractional** — fractional midi encodes any frequency
+  (m = 69 + 12·log₂(f/440)) while staying structured and diffable, so the commit/branch/diff
+  model is preserved; this is the continuous-pitch extension of MIDI-first, not a departure
+  from it. Old boolean-grid docs are migrated on load/import (`migrateDoc` in `Daw.tsx`); bass
+  and drums remain boolean grids until they need the same freedom.
 - **Branch** = duplicate the piece with a new id, seeded from the current in-progress doc, with
   a commit noting what it was branched from.
 - **Diff display** (`+N −M` boxes vs. "now") is a cheap grid-cell comparison, not a real

@@ -23,10 +23,15 @@ const STRING_SPAN = 12;                  // each string strip covers one fly (oc
 
 type Target = { f: number; label: string };
 
-function targetsFor(snap: string, homeHz: number): Target[] {
+function targetsFor(snap: string, homeHz: number, edo: number): Target[] {
   const out: Target[] = [];
   if (snap === "grid") {
-    for (let m = LO_MIDI; m <= HI_MIDI; m++) out.push({ f: midiToFreq(m), label: midiName(m) });
+    // N equal divisions of the fly (octave), anchored at Home
+    const kLo = Math.ceil(edo * Math.log2(F_LO / homeHz));
+    const kHi = Math.floor(edo * Math.log2(F_HI / homeHz));
+    for (let k = kLo; k <= kHi; k++) {
+      out.push({ f: homeHz * Math.pow(2, k / edo), label: `${((k % edo) + edo) % edo}/${edo}` });
+    }
   } else if (snap === "pure") {
     for (const r of RATIOS) {
       if (r.a === 2) continue; // 2:1 is just 1:1 an octave up
@@ -58,6 +63,7 @@ const sign = (n: number) => (n > 0 ? `+${n}` : `${n}`);
 function Comp({ dials, emit, locked, setDial }: ToyInnerProps) {
   const homeHz = dials.homeHz as number;
   const snap = dials.snap as string;
+  const edo = dials.edo as number;
   const [cur, setCur] = useState<number | null>(null);   // last touched frequency
   const [curLabel, setCurLabel] = useState("");          // snap target name, if snapped
   const [held, setHeld] = useState(false);
@@ -81,7 +87,7 @@ function Comp({ dials, emit, locked, setDial }: ToyInnerProps) {
     const x = ((clientX - r.left) / r.width) * W; // svg may render narrower than W on small screens
     let f = fOf(Math.min(X1, Math.max(X0, x)));
     let label = "";
-    const ts = targetsFor(snap, homeHz);
+    const ts = targetsFor(snap, homeHz, edo);
     if (ts.length) {
       let best = ts[0], bd = Infinity;
       for (const t of ts) { const d = Math.abs(Math.log2(t.f / f)); if (d < bd) { bd = d; best = t; } }
@@ -136,7 +142,7 @@ function Comp({ dials, emit, locked, setDial }: ToyInnerProps) {
   const vY = y; if (showV) y += 16 + VIOLIN.length * 15 + 6;
   const H = y + 2;
 
-  const targets = targetsFor(snap, homeHz);
+  const targets = targetsFor(snap, homeHz, edo);
   const tickColor = snap === "grid" ? "#9a968a" : snap === "pure" ? "#9ad0e8" : "#f2c14e";
 
   const bands: ReactElement[] = [];
@@ -233,15 +239,17 @@ function Comp({ dials, emit, locked, setDial }: ToyInnerProps) {
         {snap !== "off" && <div className="chip"><div className="k">snapped to</div><div className="v">{curLabel || "—"}</div></div>}
       </div>
 
-      <Dials names={["snap", "homeHz", "drone", "guitar", "violin"]}
+      <Dials names={["snap", "edo", "homeHz", "drone", "guitar", "violin"]}
         specs={def.dials} values={dials} locked={locked} set={setDial} />
 
       <p className="smallnote">
         This ruler is <b>logarithmic</b>: equal distance = equal <i>ratio</i>. Every fly (×2 in Hz) is the
         same width, so each band is one twelfth of an octave — ×2<sup>1/12</sup> ≈ 1.0595, exactly 100¢.
         That's why the frets, which crowd together on a real guitar neck, sit perfectly evenly here:
-        the 12-EDO grid <b>is</b> this even spacing. And between the bands there's still sound — drag
-        anywhere (snap off) to play the in-between pitches a keyboard hides.
+        the 12-EDO grid <b>is</b> this even spacing. The piano picked 12 slices per octave, but the EDO
+        dial lets you slice the fly into any number of equal steps (1-EDO = only flies!). And between
+        the bands there's still sound — drag anywhere (snap off) to play the in-between pitches a
+        keyboard hides.
       </p>
     </div>
   );
@@ -255,10 +263,11 @@ export const def: ToyDef = {
   dials: {
     snap:   { type: "select", default: "off", label: "snap to", options: [
       { value: "off",  label: "nothing — free glide" },
-      { value: "grid", label: "the 12-EDO grid" },
+      { value: "grid", label: "an EDO grid over Home" },
       { value: "pure", label: "pure ratios over Home" },
       { value: "five", label: "the High Five over Home" },
     ]},
+    edo:    { type: "slider", min: 1, max: 24, step: 1, default: 12, label: "EDO (slices per fly)" },
     homeHz: { type: "slider", min: 110, max: 440, step: 1, default: 220, label: "home (Hz)" },
     drone:  { type: "toggle", default: false, label: "home drone" },
     guitar: { type: "toggle", default: true,  label: "guitar strings" },
