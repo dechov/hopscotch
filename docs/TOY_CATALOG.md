@@ -15,7 +15,7 @@ this file. If you add/remove/rename a toy, update this table in the same change.
 | `bend-meter` | Bend Meter | sound | the fret as compromise; bending reaches pure ratios frets can't play | Lock In (4) |
 | `keys-vs-pure` | Grid vs. Pure | sound | equal temperament vs. pure ratio, blind-test game | Lock In (4) |
 | `home-finder` | Does It Sound Finished? | home | finding "Home" by ear, no theory | Home (5) |
-| `drone-pad` | Drone Pad | home | the workhorse pitch surface; noodle over a drone; MIDI-enabled | Home (5), High Five (6), Flavor (7), Put It Together (17), The Band |
+| `drone-pad` | Drone Pad | home | the workhorse pitch surface; noodle over a drone; MIDI-enabled | Home (5), The Five-Tone Scale (6), Flavor (7), Put It Together (17), The Band |
 | `move-ladder` | The Ladder | moves | the move-word vocabulary (scoot…fly), by ear + motion | The Ladder (9) |
 | `pulse-grid` | Pulse Grid | time | beat as boxes; the "lean" (swing) knob | Pulse (10), Lean the Time (15) |
 | `tone-forge` | Tone Forge | timbre | sound design: ADSR, dirt (distortion), wobble (vibrato), harmonicity; MIDI-enabled | Make a Sound (11), Lean the Time (15) |
@@ -24,12 +24,12 @@ this file. If you add/remove/rename a toy, update this table in the same change.
 | `echo-trainer` | Earshot | ear | echo-back ear training + "name the move" game; MIDI-enabled | Earshot (13) |
 | `magic-note` | The Magic Note | home | one held note, changing chords underneath — meaning depends on ground | Changing Ground (14) |
 | `chord-bed` | Chord Bed | home | moving harmonic ground: I/vi, skeleton (I IV V I), 12-bar blues | Changing Ground (14), Put It Together (17), The Band |
-| `scale-lab` | Scale Lab | color | build-your-own scale; read its move-chant | The Rainbow (16) |
-| `necklace` | The Necklace | color | keys (spin) vs. modes (walk Home) as two different circle operations | The Rainbow (16) |
+| `scale-lab` | Scale Lab | color | build-your-own scale; read its move-chant | The Seven-Tone Scale (16) |
+| `necklace` | The Necklace | color | keys (spin) vs. modes (walk Home) as two different circle operations | The Seven-Tone Scale (16) |
 | `speed-trick` | The Speed Trick | time | rhythm becomes pitch as click rate crosses ~20–45 Hz | Pulse (10) |
 | `slow-ratios` | Ratios in Slow Motion | time | a musical ratio (3:2) and a polyrhythm (3-against-2) are the same ratio, different speed | Put It Together (17) |
 | `the-drift` | The Drift | sound | the syntonic comma pump — pure chords that sink pitch forever; why temperament exists | **not embedded — Toybox only, teacher-facing** |
-| `tone-ruler` | Tone Ruler | sound | pitch as log₂(frequency): piano bands, guitar frets, and fretless violin/mandolin strings on one continuous ruler; click/drag any frequency incl. in-between pitches; snap-tuning overlays (any-N EDO over Home, pure ratios, High Five) | Lock In (4) — embedded with `choices`/`hide` narrowing it to the off/grid/pure snaps |
+| `tone-ruler` | Tone Ruler | sound | pitch as log₂(frequency): piano bands, guitar frets, and fretless violin/mandolin strings on one continuous ruler; click/drag any frequency incl. in-between pitches; snap-tuning overlays (any-N EDO over Home, pure ratios, five-tone scale) | Lock In (4) — embedded with `choices`/`hide` narrowing it to the off/grid/pure snaps |
 
 **24 toys total; 23 embedded across lessons, 1 (`the-drift`) deliberately Toybox-only.**
 

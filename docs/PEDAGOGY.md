@@ -35,18 +35,22 @@ direction as a modifier, not a new word, preserves that for later.
 if you change a word or a semitone mapping, change it there and it propagates everywhere
 (Move Ladder, Chant Board, Earshot's "name the move" mode).
 
-## The High Five (pentatonic) and the Rainbow (diatonic)
+## The five-tone scale (pentatonic) and the seven-tone scale (diatonic)
 
-- **Pentatonic scale = "the High Five."** Five notes, five fingers. Degree names are
+(Formerly "the High Five" and "the Rainbow" — renamed at the owner's request to plain
+descriptive ELI5 names; see NAMING.md. Internal ids `high-five`, `rainbow`, `five-major`,
+etc. are unchanged.)
+
+- **Pentatonic scale = "the five-tone scale."** Five notes, five fingers. Degree names are
   location-based stickers: **Home, Park, School, Farm, Woods** (not scale-degree numbers —
   numbers came later, in `docs/ROADMAP.md` "not yet" list, as an optional advanced overlay).
-- **7-note scale = "the Rainbow"** = the High Five plus two extra notes (two scoots).
-- **Why pentatonic-first, and why it's safe:** the High Five has no scoots (half-steps) in it
-  anywhere — every pair of notes is a step or more apart. That's *why* nothing in it clashes.
+- **Diatonic = "the seven-tone scale"** = the five-tone scale plus two extra notes (two scoots).
+- **Why five-tone-first, and why it's safe:** the five-tone scale has no scoots (half-steps) in
+  it anywhere — every pair of notes is a step or more apart. That's *why* nothing in it clashes.
   This is a provable, demonstrable fact (see Scale Lab's "read the chant" feature), not just an
   assertion — kids can check it themselves by building scales and reading the move-chant.
-- **The Rainbow's added danger/spice is exactly its two scoots.** This is presented as a
-  feature discovered, not a rule stated. Don't shortcut this into "the 7-note scale has more
+- **The seven-tone scale's added danger/spice is exactly its two scoots.** This is presented as
+  a feature discovered, not a rule stated. Don't shortcut this into "the 7-note scale has more
   notes" — the pedagogical point is specifically about half-steps and clash, which the pure
   note-count framing loses.
 
@@ -97,8 +101,8 @@ deliberate structural feature of the course, not incidental).
 
 ## Black keys, key journeys, and open strings
 
-- The five black keys on a piano ARE a ready-made High Five. Home = Gb → bright major-flavored
-  High Five. Home = Eb → moody minor-flavored High Five. Same five notes, different Home,
+- The five black keys on a piano ARE a ready-made five-tone scale. Home = Gb → bright
+  major-flavored five-tone scale. Home = Eb → moody minor-flavored. Same five notes, different Home,
   different flavor — this is the seed for the Necklace toy's "spin vs. walk Home" distinction
   (see below).
 - The six-stage key journey (Gb maj → Eb min → Eb maj → C min → C maj → A min) was designed so
@@ -135,7 +139,7 @@ it, because "spin" and "walk Home" are easy to conflate and they are NOT the sam
   deliberate arc from "discover timbre exists" to "you can build one" to "you can make it
   groove." Preserve this arc if you touch those three lessons.
 - **Sky / Home square = "The Band"** — 12-bar blues in A, the terminal/celebration square, not
-  just "one more lesson." It's where the moody-flavored High Five over guitar frets pays off
+  just "one more lesson." It's where the moody-flavored five-tone scale over guitar frets pays off
   the open-string A-minor handoff from the key journey above.
 
 ## Deliberately rejected simplifications (don't re-propose these)

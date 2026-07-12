@@ -267,7 +267,7 @@ export const def: ToyDef = {
       { value: "off",  label: "nothing — free glide" },
       { value: "grid", label: "the equal grid over Home" },
       { value: "pure", label: "pure ratios over Home" },
-      { value: "five", label: "the High Five over Home" },
+      { value: "five", label: "the five-tone scale over Home" },
     ]},
     edo:    { type: "slider", min: 1, max: 24, step: 1, default: 12, label: "EDO (slices per fly)" },
     homeHz: { type: "slider", min: 110, max: 440, step: 1, default: 220, label: "home (Hz)" },

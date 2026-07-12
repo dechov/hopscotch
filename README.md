@@ -21,7 +21,7 @@ Open the printed URL (usually http://localhost:5173). On first sound, tap the
   toy's guided intro (or tapping "mark as hopped") checks the square.
 - **the toybox** — every toy in free mode. Great for testing and for kids who just
   want to make noise.
-- **the sketchbook** — a 3-track step sequencer (lead = pentatonic ×2, bass roots,
+- **the sketchbook** — a 3-track step sequencer (lead = five-tone ×2, bass roots,
   drums), with a log-pitch **canvas** view for the lead (place a note at any pitch). Save **checkpoints** with messages, **branch** a piece to remix it,
   load/revert any checkpoint. This is the seed of the band's "git for music."
 
@@ -49,7 +49,7 @@ Open the printed URL (usually http://localhost:5173). On first sound, tap the
 1. Court loads, squares link, checkmarks persist after refresh.
 2. Square 1 "Listen": guided steps advance (play → slide helpers to 5 → muffle below ~700).
 3. Square 2 "Rest or Lean": find a resting ratio, hold ~1s → step advances; magnet turns on.
-4. Square 6 "High Five": pads make sound over the drone; landing Home advances the guide.
+4. Square 6 "The Five-Tone Scale": pads make sound over the drone; landing Home advances the guide.
 5. Toybox: open several toys at once; sound doesn't glitch (all share one AudioContext).
 6. Sketchbook: draw boxes, play, save checkpoint, change boxes, save again, load the first —
    diff counts (+/−) show against "now". Branch, confirm both pieces in the picker. Refresh —

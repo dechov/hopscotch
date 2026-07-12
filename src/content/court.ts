@@ -17,7 +17,7 @@ export const COURT_ROWS: Square[][] = [
   [{ n: 4, id: "lock-in", title: "Lock In", blurb: "kill the wobble · bend past the fret", thread: "sound", regroup: true }],
   [{ n: 5, id: "home", title: "Home", blurb: "the settled feeling", thread: "home" }],
   [
-    { n: 6, id: "high-five", title: "The High Five", blurb: "five notes, zero clashes", thread: "home" },
+    { n: 6, id: "high-five", title: "The Five-Tone Scale", blurb: "five notes, zero clashes", thread: "home" },
     { n: 7, id: "flavor", title: "Bright & Moody", blurb: "Home decides the flavor", thread: "home" },
   ],
   [{ n: 8, id: "turn-the-pegs", title: "Turn the Pegs", blurb: "tune by ear — for real", thread: "sound", regroup: true }],
@@ -33,7 +33,7 @@ export const COURT_ROWS: Square[][] = [
   ],
   [
     { n: 15, id: "knobs", title: "Lean the Time", blurb: "swing · dirt · feel", thread: "time" },
-    { n: 16, id: "rainbow", title: "The Rainbow", blurb: "7 notes — spice + danger", thread: "color" },
+    { n: 16, id: "rainbow", title: "The Seven-Tone Scale", blurb: "two more notes — spice + danger", thread: "color" },
   ],
   [{ n: 17, id: "put-it-together", title: "Put It Together", blurb: "ground + five + pulse", thread: "together", regroup: true }],
   [{ n: "band", id: "the-band", title: "🎵 The Band", blurb: "12-bar blues in A — everyone plays", thread: "together" }],

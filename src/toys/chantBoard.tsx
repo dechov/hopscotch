@@ -65,7 +65,7 @@ function Comp({ dials, setDial, locked, emit }: ToyInnerProps) {
         <label className="dial"><span>tempo: <b style={{color:"var(--chalk)"}}>{dials.tempo}</b></span>
           <input type="range" min={50} max={140} value={dials.tempo} disabled={locked.has("tempo")} onChange={e => setDial("tempo", parseInt(e.target.value))} /></label>
       </div>
-      <p className="smallnote">Notice: it opens with a <b>jump ↓</b> (Home down to the farm)… and there is not a single <b>scoot</b> anywhere. That's the High Five keeping everything safe. (Farm up to "E" is a big vault — the one fancy move.)</p>
+      <p className="smallnote">Notice: it opens with a <b>jump ↓</b> (Home down to the farm)… and there is not a single <b>scoot</b> anywhere. That's the five-tone scale keeping everything safe. (Farm up to "E" is a big vault — the one fancy move.)</p>
     </div>
   );
 }

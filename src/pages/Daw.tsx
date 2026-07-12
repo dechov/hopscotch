@@ -317,7 +317,7 @@ export default function Daw() {
         <div className="dialrow" style={{ marginTop: 4 }}>
           <label className="dial" style={{ maxWidth: 220 }}><span>snap notes to</span>
             <select value={canvasSnap} onChange={e => setCanvasSnap(e.target.value)}>
-              <option value="five">the High Five (over C)</option>
+              <option value="five">the five-tone scale (over C)</option>
               <option value="grid">the 12-EDO grid</option>
               <option value="free">nothing — any pitch</option>
             </select></label>
@@ -335,7 +335,7 @@ export default function Daw() {
     <div>
       <h1>the sketchbook</h1>
       <p className="smallnote">
-        A tiny piece-builder. Lead rows are the High Five (two floors of it) — so whatever you
+        A tiny piece-builder. Lead rows are the five-tone scale (two floors of it) — so whatever you
         draw over the C ground sounds good. Save <b>checkpoints</b> as you go; branch a piece to
         remix it without losing the original — like tearing out a page and redrawing it.
         Your band's version of git.
@@ -365,7 +365,7 @@ export default function Daw() {
       </div>
 
       <div className="trackhead">
-        lead — the High Five ×2{" "}
+        lead — the five-tone scale ×2{" "}
         <button style={{ marginLeft: 10, fontSize: 14, padding: "3px 10px" }}
           onClick={() => setLeadView(v => (v === "boxes" ? "canvas" : "boxes"))}>
           {leadView === "boxes" ? "switch to canvas (any pitch)" : "switch to boxes"}

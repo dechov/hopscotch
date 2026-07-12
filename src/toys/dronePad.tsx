@@ -38,7 +38,7 @@ function Comp({ dials, setDial, locked, emit }: ToyInnerProps) {
         labels={dials.stickers ? "stickers" : "letters"} onNote={onNote} />
       <Dials names={["drone", "droneType", "scale", "home", "surface", "stickers"]}
         specs={def.dials} values={dials} locked={locked} set={setDial} />
-      <p className="smallnote">Home right now: <b>{midiName(home)}</b>. With the drone on, nothing you tap can sound wrong — there are no scoots in the High Five.</p>
+      <p className="smallnote">Home right now: <b>{midiName(home)}</b>. With the drone on, nothing you tap can sound wrong — there are no scoots in the five-tone scale.</p>
     </div>
   );
 }

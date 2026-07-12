@@ -4,18 +4,18 @@ import { midiToFreq, NAMES } from "../audio/notes";
 import type { ToyDef, ToyInnerProps } from "./types";
 
 const MODE_NAMES: Record<string, string> = {
-  "0,2,4,5,7,9,11": "the Rainbow (grown-ups: major / Ionian)",
+  "0,2,4,5,7,9,11": "the seven-tone scale (grown-ups: major / Ionian)",
   "0,2,3,5,7,9,10": "Dorian — moody but hopeful",
   "0,1,3,5,7,8,10": "Phrygian — dark, Spanish",
   "0,2,4,6,7,9,11": "Lydian — floaty, dreamlike",
   "0,2,4,5,7,9,10": "Mixolydian — rock & bagpipes",
   "0,2,3,5,7,8,10": "natural minor / Aeolian",
   "0,1,3,5,6,8,10": "Locrian — the haunted one",
-  "0,2,4,7,9": "High Five (bright)",
-  "0,3,5,7,10": "High Five (moody)",
-  "0,2,5,7,10": "a pentatonic mode — suspended, open",
-  "0,2,5,7,9": "a pentatonic mode — floating",
-  "0,3,5,8,10": "a pentatonic mode — soft minor-ish",
+  "0,2,4,7,9": "five-tone (bright)",
+  "0,3,5,7,10": "five-tone (moody)",
+  "0,2,5,7,10": "a five-tone mode — suspended, open",
+  "0,2,5,7,9": "a five-tone mode — floating",
+  "0,3,5,8,10": "a five-tone mode — soft minor-ish",
 };
 
 function Comp({ dials, setDial, locked, emit }: ToyInnerProps) {
@@ -85,9 +85,9 @@ function Comp({ dials, setDial, locked, emit }: ToyInnerProps) {
           </span></label>
       </div>
       <div className="dialrow">
-        <button onClick={() => preset([0, 2, 4, 7, 9], 0)}>High Five</button>
-        <button onClick={() => preset([0, 2, 4, 5, 7, 9, 11], 0)}>Rainbow</button>
-        <button onClick={() => preset([0, 2, 4, 5, 7, 9, 11], 9)}>Rainbow, Home on A</button>
+        <button onClick={() => preset([0, 2, 4, 7, 9], 0)}>five-tone</button>
+        <button onClick={() => preset([0, 2, 4, 5, 7, 9, 11], 0)}>seven-tone</button>
+        <button onClick={() => preset([0, 2, 4, 5, 7, 9, 11], 9)}>seven-tone, Home on A</button>
       </div>
       <div className="verdict rest">{homeOnBead ? modeName : "Home fell off the necklace — walk it back on"}</div>
       <p className="smallnote">

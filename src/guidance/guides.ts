@@ -24,7 +24,7 @@ export const lockInIntro: Guide = {
 export const blackKeysIntro: Guide = {
   toy: "drone-pad",
   steps: [
-    { say: "These five pads are the black keys — a ready-made High Five. Tap around!", set: { scale: "five-major", home: "66", drone: true }, lock: ["scale", "home"], until: "noteOn" },
+    { say: "These five pads are the black keys — a ready-made five-tone scale. Tap around!", set: { scale: "five-major", home: "66", drone: true }, lock: ["scale", "home"], until: "noteOn" },
     { say: "Notice: NOTHING clashes. There are no scoots hiding in here.", until: "continue" },
     { say: "Try to land back on Home and feel it settle.", until: "homeLanded" },
   ],

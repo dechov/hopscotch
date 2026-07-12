@@ -14,7 +14,9 @@ plausible-sounding, so it's easy for a new session to innocently suggest reverti
 | A guided intro script for a toy | **guide** (type `Guide`, hook `useGuide`) | See rejected: "taw." |
 | The lesson map | **the court** | hopscotch court metaphor; squares, rows, "regroup" squares. |
 | The ear-training subsystem/mode | **Earshot** | also the id of the specific echo/name-the-move toy. |
-| Sticker names for pentatonic degrees | **Home, Park, School, Farm, Woods** | not "1st degree, 2nd degree" etc. — see PEDAGOGY.md. |
+| The pentatonic scale | **the five-tone scale** | plain ELI5 name; "pentatonic" stays as the grown-up gloss. Internal ids `high-five` (lesson), `five-major`/`five-minor` (scales) unchanged. |
+| The diatonic scale | **the seven-tone scale** | same pattern; internal ids `rainbow` (lesson/scale key) unchanged. |
+| Sticker names for five-tone degrees | **Home, Park, School, Farm, Woods** | not "1st degree, 2nd degree" etc. — see PEDAGOGY.md. |
 
 ## Rejected names (don't reintroduce without a real reason)
 
@@ -42,6 +44,15 @@ plausible-sounding, so it's easy for a new session to innocently suggest reverti
   suggestion): it's literally the box the toys live in, keeping the toy metaphor tight now
   that the backyard-structures family (court/shed/treehouse) dissolved with the sketchbook
   rename. Internal route stays `/shed`, file stays `Shed.tsx`.
+- **"The High Five" and "the Rainbow"** — the original kid-names for the pentatonic and
+  diatonic scales, superseded by **"the five-tone scale"** and **"the seven-tone scale"**.
+  The owner didn't love either name (nor alternatives like "Star" or "Neighborhood") and
+  chose plain descriptive terms as part of a general ELI5-naming preference: say what the
+  thing is in ordinary words ("five-tone scale"), keep the jargon ("pentatonic," "diatonic")
+  as a parenthetical grown-up gloss, and save the whimsy for genuinely new concepts (moves,
+  stickers, the wobble). Don't reintroduce cute proper-noun scale names. Internal ids
+  (`high-five`, `rainbow`, `five-major`, `five-minor`, dial value `"five"`) are unchanged so
+  saved progress and pieces keep working.
 - **"Stations"** — considered as a runner-up to "toy" (heritage from an earlier "Sound Lab"
   prototype with physical stations). Not used, but noted as the fallback if "toy" ever stops
   fitting the tone as the app grows.

@@ -15,7 +15,7 @@ server audio workload exists. Vite + React 18 + TypeScript + MDX + Zustand + pit
 ## Start here, in order
 
 1. **`docs/PEDAGOGY.md`** — the vocabulary and teaching theory everything else is built on
-   (the move-word ladder, the High Five, root/lean, why certain "obvious" simplifications were
+   (the move-word ladder, the five-tone scale, root/lean, why certain "obvious" simplifications were
    rejected). Read this before touching any lesson content or adding a toy that teaches a
    concept — it's very easy to accidentally contradict a decision that was made for a specific
    pedagogical reason.

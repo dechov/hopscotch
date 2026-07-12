@@ -28,14 +28,14 @@ function Comp({ dials, setDial, locked, emit }: ToyInnerProps) {
         ))}
       </div>
       <div className="dialrow">
-        <button onClick={() => setDial("mask", SCALES["five-major"].pcs)}>High Five (bright)</button>
-        <button onClick={() => setDial("mask", SCALES["five-minor"].pcs)}>High Five (moody)</button>
-        <button onClick={() => setDial("mask", SCALES["rainbow"].pcs)}>Rainbow</button>
+        <button onClick={() => setDial("mask", SCALES["five-major"].pcs)}>five-tone (bright)</button>
+        <button onClick={() => setDial("mask", SCALES["five-minor"].pcs)}>five-tone (moody)</button>
+        <button onClick={() => setDial("mask", SCALES["rainbow"].pcs)}>seven-tone</button>
       </div>
       <div className="verdict rest">the chant: {chant.join(" · ")} <span className="smallnote">(…and back to Home)</span></div>
       <PitchSurface surface="keys" home={home} pcs={mask} range={[60, 72]} labels="letters"
         onNote={(m) => { blip(midiToFreq(m), 0.45); emit("noteOn"); }} />
-      <p className="smallnote">A scale is just a chant of moves that adds up to a fly (12). The Rainbow's chant has <b>scoots</b> in it — that's where the spice (and the danger) lives. The High Five's chant has none.</p>
+      <p className="smallnote">A scale is just a chant of moves that adds up to a fly (12). The seven-tone scale's chant has <b>scoots</b> in it — that's where the spice (and the danger) lives. The five-tone scale's chant has none.</p>
     </div>
   );
 }

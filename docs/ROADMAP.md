@@ -26,7 +26,7 @@ an any-N EDO snap dial), the court/toybox/sketchbook pages, MIDI input (Drone Pa
 Earshot), master volume/mute, the `?debug=1` overlay, and the sketchbook's checkpoints/
 branching/export-import/swing **plus its log-pitch canvas view** — the lead track can be
 edited either as the classic pentatonic boxes or on a continuous log₂(frequency) canvas
-(snap: High Five / 12-EDO / free), with old boolean-grid pieces migrated on load (see
+(snap: five-tone scale / 12-EDO / free), with old boolean-grid pieces migrated on load (see
 DECISIONS.md §9).
 
 ## Designed but not built

@@ -24,12 +24,12 @@ export function moveFor(semitones: number): Move {
   return { word: `big (${s})`, semitones: s, grown: `${s} semitones`, color: "#cfcabb", motion: "??", core: false };
 }
 
-export const STICKERS = ["Home", "Park", "School", "Farm", "Woods"]; // pentatonic degree names
+export const STICKERS = ["Home", "Park", "School", "Farm", "Woods"]; // five-tone degree names
 
 export const SCALES: Record<string, { label: string; pcs: number[] }> = {
-  "five-major": { label: "High Five (bright)", pcs: [0, 2, 4, 7, 9] },
-  "five-minor": { label: "High Five (moody)",  pcs: [0, 3, 5, 7, 10] },
-  "rainbow":    { label: "Rainbow (7 notes)",  pcs: [0, 2, 4, 5, 7, 9, 11] },
+  "five-major": { label: "five-tone (bright)", pcs: [0, 2, 4, 7, 9] },
+  "five-minor": { label: "five-tone (moody)",  pcs: [0, 3, 5, 7, 10] },
+  "rainbow":    { label: "seven-tone",         pcs: [0, 2, 4, 5, 7, 9, 11] },
   "chromatic":  { label: "Every note",         pcs: [0,1,2,3,4,5,6,7,8,9,10,11] },
 };
 
