@@ -20,7 +20,7 @@ src/
   toys/        each toy = one file exporting `def: ToyDef`; registry.ts is the whole "registry"
   guidance/    useGuide.ts (the runner) + guides.ts (all guided-intro scripts)
   lessons/     *.mdx, one per court square, + index.ts registry
-  pages/       Court, LessonPage, Shed, Daw (the treehouse)
+  pages/       Court, LessonPage, Shed (the toybox), Daw (the sketchbook)
 ```
 
 ## 2. Lessons are MDX, not a custom JSON format
@@ -39,11 +39,18 @@ just markdown with `<Toy id="...">` embeds.
 - `mode`: `guided` (runs the named `Guide`, then hands off to free) · `free` · (demo mode was
   speced but not built — see ROADMAP.md).
 - `dials` = initial values; `locked` = dials the learner can't touch in this embed.
+- `hide` = dials not *rendered* in this embed (their values still apply); `choices` = narrow a
+  select dial to a subset of its options (e.g. `choices={{ snap: ["off", "pure"] }}`). This is
+  how a lesson keeps a rich toy from being overwhelming: the toy exposes everything, the embed
+  presents only what the lesson is about. Flows through `EmbedViewCtx`
+  (`src/toys/embedView.ts`) so individual toys don't need to know about it. A lesson-completion
+  "unlock" system for dial options was considered and rejected in favor of this — presentation
+  filtering per embed, no gating.
 - A toy's manifest (`ToyDef` in `src/toys/types.ts`) is a plain object: `{id, title, blurb,
   thread, dials, component}`. No registry framework beyond the `Record<string, ToyDef>` in
   `registry.ts`.
 - Every toy must be fully usable and pedagogically correct with **zero guide attached** — the
-  Shed renders every toy in free mode with no lesson context, and that's a deliberate
+  Toybox renders every toy in free mode with no lesson context, and that's a deliberate
   acceptance bar, not just a nice-to-have.
 - Rule: **pedagogy lives in the guide, not the toy.** A toy shouldn't know it's being taught;
   it should just correctly expose its dials and emit events. This is what keeps adding new
@@ -99,7 +106,7 @@ are frequently invisible any other way (you can't screenshot a wobble). If you a
 meaningful internal state that ISN'T exposed as a dial, consider whether it should be — the
 debug overlay, guided locking, and Shed free-mode all only see dials.
 
-## 9. The treehouse (piece-builder) data model
+## 9. The sketchbook (piece-builder) data model
 
 - A **Piece** has a list of **Commits** (`{id, ts, message, doc}`), each a full snapshot of the
   grid state — not a diff-based history. This is deliberately simple (v1: localStorage, small
@@ -117,7 +124,7 @@ debug overlay, guided locking, and Shed free-mode all only see dials.
 - Explicitly designed toward, but NOT yet built: **suggestions between band members** —
   PR-style proposed changes that get reviewed/merged rather than directly committed, plus
   audio-recording snapshots (as opposed to MIDI-only). See ROADMAP.md.
-- MIDI-first was a deliberate choice over audio-first for the treehouse: structured note data
+- MIDI-first was a deliberate choice over audio-first for the sketchbook: structured note data
   enables the git-like commit/branch/diff/suggestion model; raw audio would only support
   snapshotting, not real diffing. Audio recording is meant to layer on top later, not replace
   this.

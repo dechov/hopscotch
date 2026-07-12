@@ -1,4 +1,6 @@
+import { useContext } from "react";
 import type { DialSpec } from "./types";
+import { EmbedViewCtx } from "./embedView";
 
 export function Dials(props: {
   names: string[];
@@ -8,11 +10,13 @@ export function Dials(props: {
   set: (k: string, v: any) => void;
 }) {
   const { names, specs, values, locked, set } = props;
+  const view = useContext(EmbedViewCtx);
   return (
     <div className="dialrow">
       {names.map((n) => {
         const s = specs[n];
         if (!s) return null;
+        if (view.hide?.includes(n)) return null;
         const dis = locked.has(n);
         const label = s.label ?? n;
         if (s.type === "slider") return (
@@ -32,7 +36,9 @@ export function Dials(props: {
           <label className="dial" key={n} style={{ minWidth: 130 }}>
             <span>{label}</span>
             <select disabled={dis} value={values[n]} onChange={(e) => set(n, e.target.value)}>
-              {s.options?.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+              {s.options
+                ?.filter((o) => !view.choices?.[n] || view.choices[n].includes(o.value))
+                .map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
             </select>
           </label>
         );

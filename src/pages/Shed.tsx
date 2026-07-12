@@ -7,7 +7,7 @@ export default function Shed() {
   const [open, setOpen] = useState<Record<string, boolean>>({ [ids[0]]: true });
   return (
     <div>
-      <h1>the shed</h1>
+      <h1>the toybox</h1>
       <p className="smallnote">
         Every toy, free mode, no lessons attached. Open a few at once and make a racket.
         Add <b>?debug=1</b> to the address to see each toy's dials and events live.

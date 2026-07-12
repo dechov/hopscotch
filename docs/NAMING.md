@@ -9,8 +9,8 @@ plausible-sounding, so it's easy for a new session to innocently suggest reverti
 | Concept | Name | Notes |
 |---|---|---|
 | An interactive component | **toy** | `<Toy id="..."/>`. Never "widget" in code, comments, docs, or UI copy. |
-| The free-play gallery of all toys | **the Shed** | dev gallery too — a toy isn't done until it behaves correctly here. |
-| The piece-builder / mini sequencer with checkpoints & branching | **the treehouse** | route `/daw` internally (file/route name unchanged; user-facing label is "the treehouse"). |
+| The free-play gallery of all toys | **the toybox** | dev gallery too — a toy isn't done until it behaves correctly here. Route `/shed` and `Shed.tsx` stay internally (same convention as `/daw`). |
+| The piece-builder / mini sequencer with checkpoints & branching | **the sketchbook** | route `/daw` internally (file/route name unchanged; user-facing label is "the sketchbook"). |
 | A guided intro script for a toy | **guide** (type `Guide`, hook `useGuide`) | See rejected: "taw." |
 | The lesson map | **the court** | hopscotch court metaphor; squares, rows, "regroup" squares. |
 | The ear-training subsystem/mode | **Earshot** | also the id of the specific echo/name-the-move toy. |
@@ -30,8 +30,18 @@ plausible-sounding, so it's easy for a new session to innocently suggest reverti
   internal and user-facing vocabulary consistent so docs and code don't drift.
 - **"Garage"** — was the name for the piece-builder page before "the treehouse." Rejected for
   being too close to Apple's GarageBand (a real, well-known competing/adjacent product name).
-  Renamed to "the treehouse." If a future session considers other names, avoid anything that
+  If a future session considers other names, avoid anything that
   reads as a existing DAW/music-software brand.
+- **"The treehouse"** — the piece-builder's name after "Garage," superseded by **"the
+  sketchbook"** at the owner's request when the log-pitch canvas landed: he wanted a name that
+  evokes studio/canvas/editor and is "consistent with presenting everything in a nice, visual
+  (almost tactile) way." Sketchbook also explains the git features (checkpoints = kept
+  sketches, branching = tear out a page and redraw). Internal route stays `/daw`, file stays
+  `Daw.tsx`.
+- **"The Shed"** — the free-play gallery's name, superseded by **"the toybox"** (owner's
+  suggestion): it's literally the box the toys live in, keeping the toy metaphor tight now
+  that the backyard-structures family (court/shed/treehouse) dissolved with the sketchbook
+  rename. Internal route stays `/shed`, file stays `Shed.tsx`.
 - **"Stations"** — considered as a runner-up to "toy" (heritage from an earlier "Sound Lab"
   prototype with physical stations). Not used, but noted as the fallback if "toy" ever stops
   fitting the tone as the app grows.

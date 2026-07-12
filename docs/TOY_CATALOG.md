@@ -28,10 +28,10 @@ this file. If you add/remove/rename a toy, update this table in the same change.
 | `necklace` | The Necklace | color | keys (spin) vs. modes (walk Home) as two different circle operations | The Rainbow (16) |
 | `speed-trick` | The Speed Trick | time | rhythm becomes pitch as click rate crosses ~20–45 Hz | Pulse (10) |
 | `slow-ratios` | Ratios in Slow Motion | time | a musical ratio (3:2) and a polyrhythm (3-against-2) are the same ratio, different speed | Put It Together (17) |
-| `the-drift` | The Drift | sound | the syntonic comma pump — pure chords that sink pitch forever; why temperament exists | **not embedded — Shed only, teacher-facing** |
-| `tone-ruler` | Tone Ruler | sound | pitch as log₂(frequency): piano bands, guitar frets, and fretless violin/mandolin strings on one continuous ruler; click/drag any frequency incl. in-between pitches; snap-tuning overlays (any-N EDO over Home, pure ratios, High Five) | **not embedded yet — Shed only** (natural home: Lock In (4), next to Bend Meter) |
+| `the-drift` | The Drift | sound | the syntonic comma pump — pure chords that sink pitch forever; why temperament exists | **not embedded — Toybox only, teacher-facing** |
+| `tone-ruler` | Tone Ruler | sound | pitch as log₂(frequency): piano bands, guitar frets, and fretless violin/mandolin strings on one continuous ruler; click/drag any frequency incl. in-between pitches; snap-tuning overlays (any-N EDO over Home, pure ratios, High Five) | Lock In (4) — embedded with `choices`/`hide` narrowing it to the off/grid/pure snaps |
 
-**24 toys total; 22 embedded across lessons, 2 (`the-drift`, `tone-ruler`) currently Shed-only.**
+**24 toys total; 23 embedded across lessons, 1 (`the-drift`) deliberately Toybox-only.**
 
 ## Toys that are specced but NOT built
 

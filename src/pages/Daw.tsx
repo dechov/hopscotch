@@ -333,11 +333,12 @@ export default function Daw() {
 
   return (
     <div>
-      <h1>the treehouse</h1>
+      <h1>the sketchbook</h1>
       <p className="smallnote">
         A tiny piece-builder. Lead rows are the High Five (two floors of it) — so whatever you
         draw over the C ground sounds good. Save <b>checkpoints</b> as you go; branch a piece to
-        remix it without losing the original. Your band's version of git.
+        remix it without losing the original — like tearing out a page and redrawing it.
+        Your band's version of git.
       </p>
 
       <div className="dialrow">

@@ -11,19 +11,19 @@ bundle) has been verified. That's the honest starting point. In priority order:
 
 1. **`npm install && npm run dev`, then work the README's testing checklist** end to end. Fix
    whatever's broken. Audio-timing bugs (Tone.js Transport interactions when dials change
-   mid-loop, e.g. Chord Bed / Pulse Grid / the treehouse) are the most likely category of real
+   mid-loop, e.g. Chord Bed / Pulse Grid / the sketchbook) are the most likely category of real
    bug, since compile-time checking can't catch them.
 2. Specifically stress-test: guided-step advancement (does every `until` event actually fire
    from real interaction, not just compile?), MIDI input against a real device, and the
-   treehouse's checkpoint/branch/export/import round-trip.
+   sketchbook's checkpoint/branch/export/import round-trip.
 3. Only after the app is verified working end-to-end should new toys/lessons be added — a
    broken foundation makes every subsequent addition harder to debug.
 
 ## Built (see docs/TOY_CATALOG.md for the full list)
 
 All 18 lessons, all 24 toys (incl. the Tone Ruler — the log-frequency instrument ruler with
-an any-N EDO snap dial), the court/shed/treehouse pages, MIDI input (Drone Pad, Tone Forge,
-Earshot), master volume/mute, the `?debug=1` overlay, and the treehouse's checkpoints/
+an any-N EDO snap dial), the court/toybox/sketchbook pages, MIDI input (Drone Pad, Tone Forge,
+Earshot), master volume/mute, the `?debug=1` overlay, and the sketchbook's checkpoints/
 branching/export-import/swing **plus its log-pitch canvas view** — the lead track can be
 edited either as the classic pentatonic boxes or on a continuous log₂(frequency) canvas
 (snap: High Five / 12-EDO / free), with old boolean-grid pieces migrated on load (see
@@ -31,22 +31,14 @@ DECISIONS.md §9).
 
 ## Designed but not built
 
-- **Lesson-gated unlocks for tunings/scales** — tunings and snap options (N-EDO, just
-  intonation, exotic scales) should be introduced when their concept comes up in a lesson and
-  then "unlock" in the relevant toys. Proposed mechanism (not built): an optional
-  `unlockedBy: lessonId` field on a `DialSpec` option; the `Dials` component checks the
-  Zustand progress store and renders locked options greyed with a "found in square N" hint;
-  guided mode may still `set` a locked option so a lesson can demo it before unlocking.
-  Which option maps to which square is a pedagogy decision — decide per option, don't bulk-gate.
-
-- **Suggestions between treehouse collaborators** — PR-style: one band member proposes a
+- **Suggestions between sketchbook collaborators** — PR-style: one band member proposes a
   change to another's piece, the owner reviews and merges (or doesn't), rather than direct
-  commits to someone else's piece. This was the whole reason the treehouse's data model is
+  commits to someone else's piece. This was the whole reason the sketchbook's data model is
   MIDI/structured-note-first rather than audio-first (see DECISIONS.md §9) — the structured
   data is what makes a real diff/review possible. Needs: a notion of piece ownership/authorship
   (currently pieces have no owner field — add one), a "propose" action that creates a pending
   commit visible to the owner, and a merge/reject UI.
-- **Audio-recording snapshots in the treehouse** — layered on top of the MIDI-first commits,
+- **Audio-recording snapshots in the sketchbook** — layered on top of the MIDI-first commits,
   not a replacement. E.g. attaching a voice memo or instrument recording to a checkpoint as
   supplementary context, not as the primary versioned data.
 - **Reactions** (band members can react to a piece/commit — mentioned in early data-model
@@ -103,3 +95,7 @@ a detailed spec — treat them as a backlog to pull from, not commitments.
 - "Taw" and "Garage" as names (see NAMING.md).
 - Headless/multi-skin toy architecture for v1.
 - AWS in the deployment story.
+- **Lesson-gated "unlocks" for toy dial options** (progress-store-gated tunings/scales) —
+  proposed, then rejected by the owner in favor of per-embed presentation filtering: the
+  `hide`/`choices` props on `<Toy>` (DECISIONS.md §3). Toys expose everything everywhere;
+  each lesson embed just shows the subset it's about. No gating, nothing to unlock.

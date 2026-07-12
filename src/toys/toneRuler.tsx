@@ -239,7 +239,9 @@ function Comp({ dials, emit, locked, setDial }: ToyInnerProps) {
         {snap !== "off" && <div className="chip"><div className="k">snapped to</div><div className="v">{curLabel || "—"}</div></div>}
       </div>
 
-      <Dials names={["snap", "edo", "homeHz", "drone", "guitar", "violin"]}
+      <Dials names={snap === "grid"
+          ? ["snap", "edo", "homeHz", "drone", "guitar", "violin"]
+          : ["snap", "homeHz", "drone", "guitar", "violin"]}
         specs={def.dials} values={dials} locked={locked} set={setDial} />
 
       <p className="smallnote">
@@ -263,7 +265,7 @@ export const def: ToyDef = {
   dials: {
     snap:   { type: "select", default: "off", label: "snap to", options: [
       { value: "off",  label: "nothing — free glide" },
-      { value: "grid", label: "an EDO grid over Home" },
+      { value: "grid", label: "the equal grid over Home" },
       { value: "pure", label: "pure ratios over Home" },
       { value: "five", label: "the High Five over Home" },
     ]},

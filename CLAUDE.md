@@ -7,9 +7,9 @@ memory, so future sessions don't have to rediscover decisions or re-litigate set
 
 ## What this project is
 
-A chalk-styled hopscotch court of 18 short lessons, a shed of 24 interactive sound **toys**
-(never "widgets"), and **the treehouse** — a tiny local git-like piece-builder (step sequencer
-with named checkpoints and branching). Everything is client-side Web Audio (Tone.js); no
+A chalk-styled hopscotch court of 18 short lessons, a **toybox** of 24 interactive sound **toys**
+(never "widgets"), and **the sketchbook** — a tiny local git-like piece-builder (step sequencer
+with named checkpoints and branching, plus a continuous log-pitch canvas). Everything is client-side Web Audio (Tone.js); no
 server audio workload exists. Vite + React 18 + TypeScript + MDX + Zustand + pitchy.
 
 ## Start here, in order
@@ -38,12 +38,13 @@ server audio workload exists. Vite + React 18 + TypeScript + MDX + Zustand + pit
   Keep pedagogy (what to say, what to lock, in what order) in the guide, not in the toy — a toy
   should be fully usable and correct in free mode with zero guide attached.
 - **New toy checklist**: add the toy file in `src/toys/`, export `def: ToyDef`, register it in
-  `src/toys/registry.ts`, and it appears in the Shed automatically. If it belongs in a lesson,
+  `src/toys/registry.ts`, and it appears in the Toybox automatically. If it belongs in a lesson,
   embed `<Toy id="...">` in the relevant MDX file — check `docs/PEDAGOGY.md` for which square/
   thread it belongs to before picking a home for it.
 - **Every dial a toy exposes must be nameable in `ToyDef.dials`** — this is what makes the
-  debug overlay (`?debug=1`), guided locking, and the Shed's free mode all work uniformly.
-  Don't add component-local state for anything a lesson might want to script or lock.
+  debug overlay (`?debug=1`), guided locking, and the Toybox's free mode all work uniformly.
+  Don't add component-local state for anything a lesson might want to script or lock. Embeds
+  can also narrow presentation per lesson (`hide` / `choices` on `<Toy>` — see DECISIONS.md §3).
 - **Run `npm run build` before considering any change done** — it's `tsc --noEmit && vite
   build`, so it catches both type errors and real build failures in one command.
 - Deploy target is **Vercel + Supabase, no AWS** (see DECISIONS.md §7 for why) — don't

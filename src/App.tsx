@@ -33,8 +33,8 @@ export default function App() {
         <nav className="nav">
           <Link to="/" style={{ fontSize: 30 }}>🪨 hopscotch</Link>
           <NavLink to="/" end className={({ isActive }) => isActive ? "on" : ""}>the court</NavLink>
-          <NavLink to="/shed" className={({ isActive }) => isActive ? "on" : ""}>the shed</NavLink>
-          <NavLink to="/daw" className={({ isActive }) => isActive ? "on" : ""}>the treehouse</NavLink>
+          <NavLink to="/shed" className={({ isActive }) => isActive ? "on" : ""}>the toybox</NavLink>
+          <NavLink to="/daw" className={({ isActive }) => isActive ? "on" : ""}>the sketchbook</NavLink>
           <TopControls />
         </nav>
         <Routes>

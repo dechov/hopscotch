@@ -2,6 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useRef, use
 import { registry } from "./registry";
 import type { Guide, ToyMode } from "./types";
 import { THREAD_COLORS } from "./types";
+import { EmbedViewCtx } from "./embedView";
 import { armAudio, isArmed, onArmed } from "../audio/engine";
 import { isDebug } from "../state/store";
 
@@ -13,6 +14,8 @@ export default function Toy(props: {
   guide?: Guide;
   dials?: Record<string, any>;
   locked?: string[];
+  hide?: string[];                     // dials not shown in this embed (values still apply)
+  choices?: Record<string, string[]>;  // narrow a select dial to these options in this embed
   size?: "full" | "inline";
   title?: string;
 }) {
@@ -63,10 +66,13 @@ export default function Toy(props: {
     emit("valueChanged");
   }, [locked, emit]);
 
+  const view = useMemo(() => ({ hide: props.hide, choices: props.choices }), [props.hide, props.choices]);
+
   if (!def) return <div className="toy">unknown toy: {props.id}</div>;
   const C = def.component;
 
   return (
+    <EmbedViewCtx.Provider value={view}>
     <div className={`toy ${props.size === "inline" ? "inline" : ""}`}>
       <div className="toyhead">
         <h3>{props.title ?? def.title}</h3>
@@ -96,6 +102,7 @@ export default function Toy(props: {
         <div className="debug">{JSON.stringify(values)}{"\n"}events: {events.join(" · ")}</div>
       )}
     </div>
+    </EmbedViewCtx.Provider>
   );
 }
 
