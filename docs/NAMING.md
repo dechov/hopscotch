@@ -14,8 +14,8 @@ plausible-sounding, so it's easy for a new session to innocently suggest reverti
 | A guided intro script for a toy | **guide** (type `Guide`, hook `useGuide`) | See rejected: "taw." |
 | The lesson map | **the court** | hopscotch court metaphor; squares, rows, "regroup" squares. |
 | The ear-training subsystem/mode | **Earshot** | also the id of the specific echo/name-the-move toy. |
-| The pentatonic scale | **the five-tone scale** | plain ELI5 name; "pentatonic" stays as the grown-up gloss. Internal ids `high-five` (lesson), `five-major`/`five-minor` (scales) unchanged. |
-| The diatonic scale | **the seven-tone scale** | same pattern; internal ids `rainbow` (lesson/scale key) unchanged. |
+| The pentatonic scale | **the five-tone scale** | plain ELI5 name; "pentatonic" stays as the grown-up gloss. Lesson id `five-tone`; scale keys `five-major`/`five-minor` (already descriptive, kept). |
+| The diatonic scale | **the seven-tone scale** | same pattern; lesson id and scale key are both `seven-tone`. |
 | Sticker names for five-tone degrees | **Home, Park, School, Farm, Woods** | not "1st degree, 2nd degree" etc. — see PEDAGOGY.md. |
 
 ## Rejected names (don't reintroduce without a real reason)
@@ -50,9 +50,10 @@ plausible-sounding, so it's easy for a new session to innocently suggest reverti
   chose plain descriptive terms as part of a general ELI5-naming preference: say what the
   thing is in ordinary words ("five-tone scale"), keep the jargon ("pentatonic," "diatonic")
   as a parenthetical grown-up gloss, and save the whimsy for genuinely new concepts (moves,
-  stickers, the wobble). Don't reintroduce cute proper-noun scale names. Internal ids
-  (`high-five`, `rainbow`, `five-major`, `five-minor`, dial value `"five"`) are unchanged so
-  saved progress and pieces keep working.
+  stickers, the wobble). Don't reintroduce cute proper-noun scale names. Internal ids were
+  renamed with them (`high-five` → `five-tone`, `rainbow` → `seven-tone`, files too) — safe
+  because nothing was live yet; `five-major`/`five-minor` and the dial value `"five"` were
+  already descriptive and stayed.
 - **"Stations"** — considered as a runner-up to "toy" (heritage from an earlier "Sound Lab"
   prototype with physical stations). Not used, but noted as the fallback if "toy" ever stops
   fitting the tone as the app grows.

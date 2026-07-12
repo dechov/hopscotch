@@ -246,10 +246,10 @@ function Comp({ dials, emit, locked, setDial }: ToyInnerProps) {
 
       <p className="smallnote">
         This ruler is <b>logarithmic</b>: equal distance = equal <i>ratio</i>. Every fly (×2 in Hz) is the
-        same width, so each band is one twelfth of an octave — ×2<sup>1/12</sup> ≈ 1.0595, exactly 100¢.
+        same width, so each band is one twelfth of an octave — ×2<sup>1/12</sup> ≈ 1.0595, exactly 100¢ (a <b>¢</b>, "cent," is a scoot sliced into 100 bits).
         That's why the frets, which crowd together on a real guitar neck, sit perfectly evenly here:
-        the 12-EDO grid <b>is</b> this even spacing. The piano picked 12 slices per octave, but the EDO
-        dial lets you slice the fly into any number of equal steps (1-EDO = only flies!). And between
+        the 12-EDO grid <b>is</b> this even spacing. The piano picked 12 slices per octave, but the slices
+        dial lets you chop the fly into any number of equal steps (1 slice = only flies!). And between
         the bands there's still sound — drag anywhere (snap off) to play the in-between pitches a
         keyboard hides.
       </p>
@@ -269,7 +269,7 @@ export const def: ToyDef = {
       { value: "pure", label: "pure ratios over Home" },
       { value: "five", label: "the five-tone scale over Home" },
     ]},
-    edo:    { type: "slider", min: 1, max: 24, step: 1, default: 12, label: "EDO (slices per fly)" },
+    edo:    { type: "slider", min: 1, max: 24, step: 1, default: 12, label: "slices per fly" },
     homeHz: { type: "slider", min: 110, max: 440, step: 1, default: 220, label: "home (Hz)" },
     drone:  { type: "toggle", default: false, label: "home drone" },
     guitar: { type: "toggle", default: true,  label: "guitar strings" },

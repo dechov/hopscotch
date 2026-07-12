@@ -59,7 +59,7 @@ function Comp({ dials, setDial, locked, emit }: ToyInnerProps) {
       <Dials names={["dirt", "wobbleRate", "wobbleDepth", "harmonicity"]} specs={def.dials} values={dials} locked={locked} set={setDial} />
       <PitchSurface surface="keys" home={60} pcs={[0,1,2,3,4,5,6,7,8,9,10,11]} range={[60, 72]} labels="letters"
         onNote={(m) => { chain.current?.synth.triggerAttackRelease(midiToFreq(m), dials.sustain > 0 ? 0.8 : 1.2); emit("noteOn"); }} />
-      <p className="smallnote">A sound's identity = its life-shape (attack/decay/sustain/release) + its dirt (extra helpers!) + its wobble. Try <b>harmonicity</b>: whole numbers sound musical, in-between numbers go bell-clangy — resting vs. leaning INSIDE one sound.</p>
+      <p className="smallnote">A sound's identity = its life-shape (start → settle → hold → fade) + its dirt (extra helpers!) + its wobble. Try <b>helper spacing</b>: whole numbers sound musical, in-between numbers go bell-clangy — resting vs. leaning INSIDE one sound.</p>
     </div>
   );
 }
@@ -70,14 +70,14 @@ export const def: ToyDef = {
   blurb: "Build a sound: shape its life, add dirt, make it wobble.",
   thread: "timbre",
   dials: {
-    attack:      { type: "slider", min: 0.001, max: 1, step: 0.001, default: 0.01, label: "attack" },
-    decay:       { type: "slider", min: 0.01, max: 2, step: 0.01, default: 0.2, label: "decay" },
-    sustain:     { type: "slider", min: 0, max: 1, step: 0.01, default: 0.6, label: "sustain" },
-    release:     { type: "slider", min: 0.01, max: 2.5, step: 0.01, default: 0.4, label: "release" },
+    attack:      { type: "slider", min: 0.001, max: 1, step: 0.001, default: 0.01, label: "start (attack)" },
+    decay:       { type: "slider", min: 0.01, max: 2, step: 0.01, default: 0.2, label: "settle (decay)" },
+    sustain:     { type: "slider", min: 0, max: 1, step: 0.01, default: 0.6, label: "hold (sustain)" },
+    release:     { type: "slider", min: 0.01, max: 2.5, step: 0.01, default: 0.4, label: "fade (release)" },
     dirt:        { type: "slider", min: 0, max: 1, step: 0.01, default: 0, label: "dirt" },
     wobbleRate:  { type: "slider", min: 0.5, max: 12, step: 0.1, default: 5, label: "wobble speed" },
     wobbleDepth: { type: "slider", min: 0, max: 1, step: 0.01, default: 0, label: "wobble amount" },
-    harmonicity: { type: "slider", min: 0.5, max: 4, step: 0.01, default: 1, label: "harmonicity" },
+    harmonicity: { type: "slider", min: 0.5, max: 4, step: 0.01, default: 1, label: "helper spacing (harmonicity)" },
   },
   component: Comp,
 };

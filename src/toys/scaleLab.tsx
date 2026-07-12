@@ -30,7 +30,7 @@ function Comp({ dials, setDial, locked, emit }: ToyInnerProps) {
       <div className="dialrow">
         <button onClick={() => setDial("mask", SCALES["five-major"].pcs)}>five-tone (bright)</button>
         <button onClick={() => setDial("mask", SCALES["five-minor"].pcs)}>five-tone (moody)</button>
-        <button onClick={() => setDial("mask", SCALES["rainbow"].pcs)}>seven-tone</button>
+        <button onClick={() => setDial("mask", SCALES["seven-tone"].pcs)}>seven-tone</button>
       </div>
       <div className="verdict rest">the chant: {chant.join(" · ")} <span className="smallnote">(…and back to Home)</span></div>
       <PitchSurface surface="keys" home={home} pcs={mask} range={[60, 72]} labels="letters"

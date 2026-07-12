@@ -38,8 +38,8 @@ if you change a word or a semitone mapping, change it there and it propagates ev
 ## The five-tone scale (pentatonic) and the seven-tone scale (diatonic)
 
 (Formerly "the High Five" and "the Rainbow" — renamed at the owner's request to plain
-descriptive ELI5 names; see NAMING.md. Internal ids `high-five`, `rainbow`, `five-major`,
-etc. are unchanged.)
+descriptive ELI5 names; see NAMING.md. Internal ids were renamed too: lessons `five-tone` /
+`seven-tone`, scale key `seven-tone`; `five-major`/`five-minor` were already descriptive.)
 
 - **Pentatonic scale = "the five-tone scale."** Five notes, five fingers. Degree names are
   location-based stickers: **Home, Park, School, Farm, Woods** (not scale-degree numbers —

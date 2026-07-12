@@ -29,7 +29,7 @@ export const STICKERS = ["Home", "Park", "School", "Farm", "Woods"]; // five-ton
 export const SCALES: Record<string, { label: string; pcs: number[] }> = {
   "five-major": { label: "five-tone (bright)", pcs: [0, 2, 4, 7, 9] },
   "five-minor": { label: "five-tone (moody)",  pcs: [0, 3, 5, 7, 10] },
-  "rainbow":    { label: "seven-tone",         pcs: [0, 2, 4, 5, 7, 9, 11] },
+  "seven-tone": { label: "seven-tone",         pcs: [0, 2, 4, 5, 7, 9, 11] },
   "chromatic":  { label: "Every note",         pcs: [0,1,2,3,4,5,6,7,8,9,10,11] },
 };
 

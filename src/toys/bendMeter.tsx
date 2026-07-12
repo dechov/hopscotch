@@ -77,6 +77,7 @@ function Comp({ dials, setDial, locked, emit }: ToyInnerProps) {
         <div className="chip"><div className="k">off by</div><div className="v">{Math.round(nd)}¢</div></div>
       </div>
       <p className="smallnote">{note}</p>
+      <p className="smallnote">A <b>¢</b> ("cent") is a scoot sliced into 100 equal bits — so each fret step is exactly 100¢.</p>
     </div>
   );
 }
