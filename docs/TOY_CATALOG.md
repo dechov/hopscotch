@@ -29,8 +29,9 @@ this file. If you add/remove/rename a toy, update this table in the same change.
 | `speed-trick` | The Speed Trick | time | rhythm becomes pitch as click rate crosses ~20–45 Hz | Pulse (10) |
 | `slow-ratios` | Ratios in Slow Motion | time | a musical ratio (3:2) and a polyrhythm (3-against-2) are the same ratio, different speed | Put It Together (17) |
 | `the-drift` | The Drift | sound | the syntonic comma pump — pure chords that sink pitch forever; why temperament exists | **not embedded — Shed only, teacher-facing** |
+| `tone-ruler` | Tone Ruler | sound | pitch as log₂(frequency): piano bands, guitar frets, and fretless violin/mandolin strings on one continuous ruler; click/drag any frequency incl. in-between pitches; snap-tuning overlays (12-EDO, pure ratios, High Five) | **not embedded yet — Shed only** (natural home: Lock In (4), next to Bend Meter) |
 
-**23 toys total; 22 embedded across lessons, 1 (`the-drift`) deliberately Shed-only.**
+**24 toys total; 22 embedded across lessons, 2 (`the-drift`, `tone-ruler`) currently Shed-only.**
 
 ## Toys that are specced but NOT built
 

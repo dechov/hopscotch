@@ -21,11 +21,22 @@ bundle) has been verified. That's the honest starting point. In priority order:
 
 ## Built (see docs/TOY_CATALOG.md for the full list)
 
-All 18 lessons, all 23 toys, the court/shed/treehouse pages, MIDI input (Drone Pad, Tone Forge,
-Earshot), master volume/mute, the `?debug=1` overlay, and the treehouse's checkpoints/branching/
+All 18 lessons, all 24 toys (incl. the Tone Ruler — the log-frequency instrument ruler),
+the court/shed/treehouse pages, MIDI input (Drone Pad, Tone Forge, Earshot), master
+volume/mute, the `?debug=1` overlay, and the treehouse's checkpoints/branching/
 export-import/swing.
 
 ## Designed but not built
+
+- **Treehouse log-frequency note view** — the treehouse should be able to visualize playback
+  (and eventually accept input) on the same log₂(frequency) ruler the Tone Ruler toy uses.
+  Phasing decided when the Tone Ruler was built: (1) the toy itself — **built**; (2) a
+  read-only ruler view in the treehouse that lights up notes during playback — cheap, since a
+  piano roll already *is* a log-frequency plot (equal row heights = equal semitones), it mostly
+  needs honest axis labeling in Hz; (3) continuous-pitch *input* in pieces — deliberately last,
+  because arbitrary frequencies change the piece doc format (e.g. midi + cents offset per note)
+  and touch DECISIONS.md §9's structured-MIDI-first commit/diff model, so it needs a real
+  format design, not a drive-by change. Don't start (3) before the ear-testing pass below.
 
 - **Suggestions between treehouse collaborators** — PR-style: one band member proposes a
   change to another's piece, the owner reviews and merges (or doesn't), rather than direct
@@ -47,7 +58,10 @@ export-import/swing.
 - **Instrument-profile-adapted surfaces** — the concept that a toy's `PitchSurface` should
   adapt to a chosen instrument profile (keys/fretboard/pads/ribbon) beyond the current
   per-toy `surface` dial. Partially present (Drone Pad and Tone Forge already expose
-  keys/pads/frets as a dial), not generalized into a shared profile system.
+  keys/pads/frets as a dial), not generalized into a shared profile system. The Tone Ruler
+  toy is a continuous cousin of this idea (instrument layouts as overlays on one frequency
+  axis) but deliberately separate from `PitchSurface`, which stays a discrete playable
+  instrument.
 - **Scale-degree numbers as an optional overlay** on top of the sticker names
   (Home/Park/School/Farm/Woods) — for older kids/adults who want the numeric vocabulary
   alongside or instead of stickers. See PEDAGOGY.md — deliberately not the primary vocabulary,

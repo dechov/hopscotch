@@ -22,12 +22,13 @@ import { def as slowRatios } from "./slowRatios";
 import { def as pluckString } from "./pluckString";
 import { def as necklace } from "./necklace";
 import { def as theDrift } from "./theDrift";
+import { def as toneRuler } from "./toneRuler";
 
 const all: ToyDef[] = [
   waveBuilder, twoTone, wobbleScope, bendMeter, tuneIt, spectrumScope,
   dronePad, homeFinder, chordBed, magicNote, moveLadder, chantBoard,
   pulseGrid, toneForge, echoTrainer, ratioZoo, keysVsPure, scaleLab,
-  speedTrick, slowRatios, pluckString, necklace, theDrift,
+  speedTrick, slowRatios, pluckString, necklace, theDrift, toneRuler,
 ];
 
 export const registry: Record<string, ToyDef> = Object.fromEntries(all.map(d => [d.id, d]));
