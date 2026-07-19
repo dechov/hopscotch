@@ -47,6 +47,13 @@ function targetsFor(snap: string, homeHz: number, edo: number): Target[] {
         if (f >= F_LO && f <= F_HI) out.push({ f, label: STICKERS[i] });
       }
     });
+  } else if (snap === "ladder") {
+    // equal Hz steps = the helper (harmonic) ladder of a low fundamental — arithmetic, not
+    // geometric, so the ticks visibly crowd together toward the right of the log ruler
+    const f0 = homeHz / 8;
+    for (let k = Math.ceil(F_LO / f0); k * f0 <= F_HI; k++) {
+      out.push({ f: k * f0, label: k <= 12 || k % 4 === 0 ? `${k}×` : "" });
+    }
   }
   return out.sort((a, b) => a.f - b.f);
 }
@@ -135,7 +142,7 @@ function Comp({ dials, emit, locked, setDial }: ToyInnerProps) {
 
   // ── layout ──
   const showG = !!dials.guitar, showV = !!dials.violin;
-  const labelRow = snap === "pure" || snap === "five";
+  const labelRow = snap === "pure" || snap === "five" || snap === "ladder";
   const KEY_Y = 26, KEY_H = 56;
   let y = KEY_Y + KEY_H + (labelRow ? 18 : 6);
   const gY = y; if (showG) y += 16 + GUITAR.length * 15 + 6;
@@ -143,7 +150,7 @@ function Comp({ dials, emit, locked, setDial }: ToyInnerProps) {
   const H = y + 2;
 
   const targets = targetsFor(snap, homeHz, edo);
-  const tickColor = snap === "grid" ? "#9a968a" : snap === "pure" ? "#9ad0e8" : "#f2c14e";
+  const tickColor = snap === "grid" ? "#9a968a" : snap === "pure" ? "#9ad0e8" : snap === "ladder" ? "#c79bca" : "#f2c14e";
 
   const bands: ReactElement[] = [];
   for (let m = LO_MIDI; m <= HI_MIDI; m++) {
@@ -214,7 +221,7 @@ function Comp({ dials, emit, locked, setDial }: ToyInnerProps) {
           <g key={i}>
             <line x1={xOf(t.f)} x2={xOf(t.f)} y1={KEY_Y} y2={KEY_Y + KEY_H}
               stroke={tickColor} strokeWidth={snap === "grid" ? 1 : 1.5} opacity={snap === "grid" ? 0.55 : 0.9} />
-            {labelRow && (
+            {labelRow && t.label && (
               <text x={xOf(t.f)} y={KEY_Y + KEY_H + 12} textAnchor="middle" fontSize={8.5}
                 fontFamily="monospace" fill={tickColor}>{t.label}</text>
             )}
@@ -249,9 +256,11 @@ function Comp({ dials, emit, locked, setDial }: ToyInnerProps) {
         same width, so each band is one twelfth of an octave — ×2<sup>1/12</sup> ≈ 1.0595, exactly 100¢ (a <b>¢</b>, "cent," is a scoot sliced into 100 bits).
         That's why the frets, which crowd together on a real guitar neck, sit perfectly evenly here:
         the 12-EDO grid <b>is</b> this even spacing. The piano picked 12 slices per octave, but the slices
-        dial lets you chop the fly into any number of equal steps (1 slice = only flies!). And between
-        the bands there's still sound — drag anywhere (snap off) to play the in-between pitches a
-        keyboard hides.
+        dial lets you chop the fly into any number of equal steps (1 slice = only flies!). The
+        <b> helper ladder</b> snap is the opposite experiment: steps an equal number of <i>Hz</i> apart —
+        the helpers of one deep tone — and watch how they crowd together up here, because equal Hz is
+        not equal musical distance. And between the bands there's still sound — drag anywhere (snap off)
+        to play the in-between pitches a keyboard hides.
       </p>
     </div>
   );
@@ -268,6 +277,7 @@ export const def: ToyDef = {
       { value: "grid", label: "the equal grid over Home" },
       { value: "pure", label: "pure ratios over Home" },
       { value: "five", label: "the five-tone scale over Home" },
+      { value: "ladder", label: "the helper ladder (equal Hz steps)" },
     ]},
     edo:    { type: "slider", min: 1, max: 24, step: 1, default: 12, label: "slices per fly" },
     homeHz: { type: "slider", min: 110, max: 440, step: 1, default: 220, label: "home (Hz)" },

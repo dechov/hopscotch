@@ -7,7 +7,7 @@ memory, so future sessions don't have to rediscover decisions or re-litigate set
 
 ## What this project is
 
-A chalk-styled hopscotch court of 18 short lessons, a **toybox** of 24 interactive sound **toys**
+A chalk-styled hopscotch court of 18 short lessons, a **toybox** of 26 interactive sound **toys**
 (never "widgets"), and **the sketchbook** — a tiny local git-like piece-builder (step sequencer
 with named checkpoints and branching, plus a continuous log-pitch canvas). Everything is client-side Web Audio (Tone.js); no
 server audio workload exists. Vite + React 18 + TypeScript + MDX + Zustand + pitchy.
@@ -52,7 +52,7 @@ server audio workload exists. Vite + React 18 + TypeScript + MDX + Zustand + pit
 
 ## Current state (update this section as you go)
 
-All 18 lessons and 24 toys are built and passing `npm run build`. Nothing has been tested
+All 18 lessons and 26 toys are built and passing `npm run build`. Nothing has been tested
 by ear/hand yet — that's the first task in a fresh session (see ROADMAP.md "Immediate next
 steps"). Treat every toy's *audio behavior* as unverified even though the code compiles.
 

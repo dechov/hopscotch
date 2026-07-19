@@ -21,8 +21,11 @@ bundle) has been verified. That's the honest starting point. In priority order:
 
 ## Built (see docs/TOY_CATALOG.md for the full list)
 
-All 18 lessons, all 24 toys (incl. the Tone Ruler — the log-frequency instrument ruler with
-an any-N EDO snap dial), the court/toybox/sketchbook pages, MIDI input (Drone Pad, Tone Forge,
+All 18 lessons, all 26 toys — incl. the Tone Ruler (log-frequency instrument ruler; any-N
+EDO, pure-ratio, five-tone, and equal-Hz helper-ladder snaps), **Is That the Same Note?**
+(the first-principles scale-derivation game) and the **Ratio Map** (playable 5-limit JI
+lattice with comma walks) — see `docs/FIRST-PRINCIPLES.md` for the design notes behind those
+two and the backlog they came from. Plus the court/toybox/sketchbook pages, MIDI input (Drone Pad, Tone Forge,
 Earshot), master volume/mute, the `?debug=1` overlay, and the sketchbook's checkpoints/
 branching/export-import/swing **plus its log-pitch canvas view** — the lead track can be
 edited either as the classic pentatonic boxes or on a continuous log₂(frequency) canvas
@@ -62,6 +65,11 @@ DECISIONS.md §9).
 - **`mode="demo"`** on the `<Toy>` embed contract — autoplay, no input, mentioned in early
   embed-contract planning (alongside `guided`/`free`) but never implemented; only `guided` and
   `free` exist in code today.
+- **From `docs/FIRST-PRINCIPLES.md`** (designed there, not built): the Moiré/beating visual
+  toy; multi-subdivision Pulse Grid ("rhythm harmonics"); the Ratio Map's "roll up the
+  lattice" temper control; a melody-vs-harmony lesson (Tone Ruler as theremin vs. Ratio Map,
+  voice leading, Flight of the Bumblebee callback); wingbeat/engine videos
+  (content-to-source); pipe/glass resonance (parked).
 
 ## Ideas raised but not designed in detail ("cool, not yet")
 

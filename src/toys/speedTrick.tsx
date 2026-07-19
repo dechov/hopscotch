@@ -64,9 +64,18 @@ function Comp({ dials, setDial, locked, emit }: ToyInnerProps) {
   }
 
   const zone =
-    f < 14 ? { label: "RHYTHM", note: `${f.toFixed(1)} clicks/sec — that's ${(f * 60).toFixed(0)} BPM` } :
-    f < 45 ? { label: "the in-between flutter", note: "too fast to count, too slow to sing…" } :
-    { label: "PITCH!", note: `${f.toFixed(0)} Hz — near ${midiName(Math.round(69 + 12 * Math.log2(f / 440)))}` };
+    f < 14 ? { label: "RHYTHM", note: `${f.toFixed(1)}/sec = ${(f * 60).toFixed(0)} per minute (BPM)` } :
+    f < 45 ? { label: "the in-between flutter", note: `${f.toFixed(1)}/sec = ${(f * 60).toFixed(0)}/min — too fast to count, too slow to sing…` } :
+    { label: "PITCH!", note: `${f.toFixed(0)} Hz (= ${(f * 60).toFixed(0)} per minute!) — near ${midiName(Math.round(69 + 12 * Math.log2(f / 440)))}` };
+
+  const LANDMARKS: [string, number][] = [
+    ["🎬 film, 24/s", 24],
+    ["🎹 piano's lowest A, 27.5", 27.5],
+    ["🎸 bass E1, 41.2", 41.2],
+    ["🚗 engine ~3000 RPM, 100", 100],
+    ["🐝 bumblebee wings, ~200", 200],
+    ["🎻 A440", 440],
+  ];
 
   return (
     <div>
@@ -86,10 +95,20 @@ function Comp({ dials, setDial, locked, emit }: ToyInnerProps) {
         <div className="chip" style={{ minWidth: 200 }}><div className="k">what your ear calls it</div><div className="v">{zone.label}</div></div>
         <div className="chip" style={{ flex: 1 }}><div className="k">the numbers</div><div className="v" style={{ fontSize: 18 }}>{zone.note}</div></div>
       </div>
+      <div className="dialrow">
+        {LANDMARKS.map(([label, hz]) => (
+          <button key={hz} style={{ fontSize: 14, padding: "4px 10px" }} disabled={locked.has("v")}
+            onClick={() => { sweeping.current = false; setDial("v", Math.log(hz) / Math.log(440)); }}>
+            {label}
+          </button>
+        ))}
+      </div>
       <p className="smallnote">
         Nothing changes but the speed. Slow clicks are a <b>beat</b>; the same clicks, fast enough,
         become a <b>note</b>. Rhythm and pitch are one thing at two speeds — the time thread and the
-        sound thread were the same thread all along.
+        sound thread were the same thread all along. The landmarks are real: a bumblebee's buzz IS its
+        wingbeat, a car engine's pitch IS its RPM (÷60, ×firings), and the piano's lowest A is only
+        27.5 happenings per second — barely faster than a drum roll, already a note.
       </p>
     </div>
   );

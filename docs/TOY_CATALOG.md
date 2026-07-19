@@ -29,9 +29,11 @@ this file. If you add/remove/rename a toy, update this table in the same change.
 | `speed-trick` | The Speed Trick | time | rhythm becomes pitch as click rate crosses ~20–45 Hz | Pulse (10) |
 | `slow-ratios` | Ratios in Slow Motion | time | a musical ratio (3:2) and a polyrhythm (3-against-2) are the same ratio, different speed | Put It Together (17) |
 | `the-drift` | The Drift | sound | the syntonic comma pump — pure chords that sink pitch forever; why temperament exists | **not embedded — Toybox only, teacher-facing** |
-| `tone-ruler` | Tone Ruler | sound | pitch as log₂(frequency): piano bands, guitar frets, and fretless violin/mandolin strings on one continuous ruler; click/drag any frequency incl. in-between pitches; snap-tuning overlays (any-N EDO over Home, pure ratios, five-tone scale) | Lock In (4) — embedded with `choices`/`hide` narrowing it to the off/grid/pure snaps |
+| `tone-ruler` | Tone Ruler | sound | pitch as log₂(frequency): piano bands, guitar frets, and fretless violin/mandolin strings on one continuous ruler; click/drag any frequency incl. in-between pitches; snap-tuning overlays (any-N EDO over Home, pure ratios, five-tone scale, equal-Hz helper ladder) | Lock In (4) — embedded with `choices`/`hide` narrowing it to the off/grid/pure snaps |
+| `same-note` | Is That the Same Note? | color | derive scales from first principles as a decision game: fold at the octave, stack fifths, decide at each near-miss (2, 5, 7, 12, 17…53 notes) whether to close the circle; hear each comma and its tempering | **not embedded yet — Toybox only** (see docs/FIRST-PRINCIPLES.md §2) |
+| `ratio-map` | Ratio Map | sound | the 5-limit JI lattice (per Erlich), every node a playable ratio over Home; animated comma walks (syntonic 21.5¢, Pythagorean 23.5¢) ending on the beating near-miss pair | **not embedded yet — Toybox only** (see docs/FIRST-PRINCIPLES.md §3) |
 
-**24 toys total; 23 embedded across lessons, 1 (`the-drift`) deliberately Toybox-only.**
+**26 toys total; 23 embedded across lessons, 3 (`the-drift`, `same-note`, `ratio-map`) currently Toybox-only.**
 
 ## Toys that are specced but NOT built
 
