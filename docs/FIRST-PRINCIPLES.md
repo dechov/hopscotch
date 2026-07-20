@@ -262,6 +262,16 @@ Second pass (same branch, after the "keystone" go-ahead):
 - **Toybox**: "start here — the big surprises" featured shelf + thread-grouped shelves.
 - The Band lesson: blue-zone paragraph — the microtonal door via feel (§ blue notes).
 
+Third pass (FFT / digitization / voice):
+- **Sound Picture** (`sound-picture`): live spectrogram on the log ruler (Tone.UserMedia +
+  Analyser fft, scrolling canvas, pitchy voice trace, freeze).
+- **Sound Is Numbers** (`sound-numbers`): the digitization toy from §5b — sample dots on a
+  time grid with a Nyquist alias overlay, loudness grid audible via Tone.BitCrusher.
+- **Your Voice on the Ruler** (`voice-ruler`): pitchy trace of the singer's own voice on the
+  12-band ruler with an auto-tune comparison trace — §5b's "auto-tune on your own voice,"
+  visual version (audible retuning would need pitch-shifting; future).
+  Mic toys use the established `exclusive` pattern from See Your Sound.
+
 Deliberate exceptions to note: the Same-Note Game keeps its branching *inside the toy*
 (normally pedagogy lives in guides — DECISIONS.md §3/§4). The branching decision tree IS the
 toy's mechanism, not a lesson script layered on it; a future lesson can still wrap it with a

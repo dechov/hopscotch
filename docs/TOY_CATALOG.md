@@ -34,8 +34,11 @@ this file. If you add/remove/rename a toy, update this table in the same change.
 | `ratio-map` | Ratio Map | sound | the 5-limit JI lattice (per Erlich), every node a playable ratio over Home; animated comma walks (syntonic 21.5¢, Pythagorean 23.5¢) ending on the beating near-miss pair; "roll it up" slider tempers the comma away and collapses the lattice into the meantone chain | **not embedded yet — Toybox only** (see docs/FIRST-PRINCIPLES.md §3) |
 | `song-passport` | Song Passport | color | the same melody (Old MacDonald, stored as chain-of-fifths moves) rendered in other tuning worlds — 19/31 keep it, 22 bends it, 7/5 melt it | **not embedded yet — Toybox only** |
 | `wobble-stripes` | Wobble Stripes | sound | beating as a moiré: two stripe gratings + two tones, bands and wobbles both at the difference frequency | **not embedded yet — Toybox only** |
+| `sound-picture` | Sound Picture | timbre | live mic spectrogram on the log ruler: melody as a drawn line, helpers as parallel stripes; pitchy voice trace; freeze | **not embedded yet — Toybox only** (natural home: See Your Sound (3)) |
+| `sound-numbers` | Sound Is Numbers | sound | digitization: time grid (sample dots, Nyquist alias overlay) + loudness grid (audible via Tone.BitCrusher) — the quantization trilogy with note-snapping | **not embedded yet — Toybox only** |
+| `voice-ruler` | Your Voice on the Ruler | ear | pitchy pitch trace of your own voice on the 12-band log ruler, with an "auto-tune trace" overlay showing what quantizing keeps vs. discards | **not embedded yet — Toybox only** |
 
-**28 toys total; 23 embedded across lessons, 5 currently Toybox-only (`the-drift`, `same-note`, `ratio-map`, `song-passport`, `wobble-stripes`).**
+**31 toys total; 23 embedded across lessons, 8 currently Toybox-only (`the-drift`, `same-note`, `ratio-map`, `song-passport`, `wobble-stripes`, `sound-picture`, `sound-numbers`, `voice-ruler`).**
 
 ## Toys that are specced but NOT built
 

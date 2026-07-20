@@ -5,7 +5,7 @@ import { THREAD_COLORS } from "../toys/types";
 
 // The most surprising / fundamental demos go first; everything else is grouped by thread so
 // the full collection reads as a few small shelves instead of one overwhelming list.
-const FEATURED = ["speed-trick", "same-note", "song-passport", "tone-ruler", "ratio-map"];
+const FEATURED = ["speed-trick", "sound-picture", "same-note", "song-passport", "tone-ruler", "ratio-map"];
 const THREAD_ORDER = ["sound", "home", "moves", "time", "timbre", "color", "ear", "together"];
 
 export default function Shed() {

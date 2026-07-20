@@ -27,6 +27,9 @@ import { def as sameNote } from "./sameNote";
 import { def as ratioMap } from "./ratioMap";
 import { def as songPassport } from "./songPassport";
 import { def as wobbleStripes } from "./wobbleStripes";
+import { def as soundPicture } from "./soundPicture";
+import { def as soundNumbers } from "./soundNumbers";
+import { def as voiceRuler } from "./voiceRuler";
 
 const all: ToyDef[] = [
   waveBuilder, twoTone, wobbleScope, bendMeter, tuneIt, spectrumScope,
@@ -34,6 +37,7 @@ const all: ToyDef[] = [
   pulseGrid, toneForge, echoTrainer, ratioZoo, keysVsPure, scaleLab,
   speedTrick, slowRatios, pluckString, necklace, theDrift, toneRuler,
   sameNote, ratioMap, songPassport, wobbleStripes,
+  soundPicture, soundNumbers, voiceRuler,
 ];
 
 export const registry: Record<string, ToyDef> = Object.fromEntries(all.map(d => [d.id, d]));
