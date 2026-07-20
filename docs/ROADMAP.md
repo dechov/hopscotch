@@ -81,24 +81,15 @@ DECISIONS.md §9).
 Roughly in the order they came up across the project conversation. None of these have code or
 a detailed spec — treat them as a backlog to pull from, not commitments.
 
-- **The wobble, redeemed** — a toy where the "bad" beating from Two Tone/square-2 becomes a
-  deliberate chorus/lushness effect (e.g. a "how many singers?" dial stacking detuned voices).
-  Narratively nice because it turns square 2's villain into a later feature.
-- **Lissajous knots** — drive a dot's x/y position from two tones; resting ratios draw stable
-  closed knots, leaning ratios tumble. Would be Two Tone's third visualization alongside the
-  waveform and Wobble Scope.
 - **The time microscope** — record a note via mic (Tone.GrainPlayer) and let a kid stretch/
   freeze it 20× without pitch change, to explore attack/wobble/decay as a "landscape." Also
   Tone.PitchShift to decouple pitch from time (why chipmunk-voice happens).
-- **Euclidean rhythm dial** — distribute k hits evenly across n slots to generate tresillo,
-  cumbia, and similar world grooves from two numbers. Proposed as a one-knob upgrade to Pulse
-  Grid specifically, not a new toy.
 - **The cave knob** — Tone.Reverb/FeedbackDelay as "how big is the room?", ideally with mic
   input so a clap changes the reverb tail live.
-- **The pitch spiral** — pitch as a helix (octaves stack, pitch-class = angle around the
-  helix), ideally with live mic input drawing the singer's own voice on it. Would make "fly =
-  same place, higher floor" literally visible; a natural companion to the Necklace toy (same
-  circle-of-pitch-classes idea, but 3D/helical to also show octave).
+- (The wobble-redeemed, Lissajous-knots, Euclidean-fill, and pitch-spiral ideas from this
+  list are now BUILT: `many-singers`, `knots`, Pulse Grid magic fills, `pitch-spiral`.
+  Still open from the old list: the time microscope and the cave knob; plus the isomorphic
+  generator×period grid and `mode="demo"` from later planning.)
 
 ## Explicitly rejected (don't rebuild these — see docs/PEDAGOGY.md and docs/DECISIONS.md)
 

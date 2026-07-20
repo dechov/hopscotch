@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { Tone } from "../audio/engine";
-import { PitchDetector } from "pitchy";
 import { midiName } from "../audio/notes";
+import { useMic, MicGate } from "./mic";
 import type { ToyDef, ToyInnerProps } from "./types";
 
 // Your voice on the log-pitch ruler: the theremin in reverse. Pitchy tracks the mic; the
@@ -15,31 +14,14 @@ const BLACK = new Set([1, 3, 6, 8, 10]);
 
 function Comp({ dials, setDial, emit, locked }: ToyInnerProps) {
   const canvas = useRef<HTMLCanvasElement>(null);
-  const [micOn, setMicOn] = useState(false);
-  const [err, setErr] = useState("");
   const [reading, setReading] = useState("—");
-  const stuff = useRef<{ mic: Tone.UserMedia; wave: Tone.Analyser; det: any } | null>(null);
+  const mic = useMic();
   const raf = useRef(0);
 
-  async function enable() {
-    try {
-      const mic = new Tone.UserMedia();
-      await mic.open();
-      const wave = new Tone.Analyser("waveform", 2048);
-      mic.connect(wave);
-      stuff.current = { mic, wave, det: PitchDetector.forFloat32Array(2048) };
-      setMicOn(true);
-      emit("micOn");
-    } catch { setErr("Mic blocked — allow microphone access and try again."); }
-  }
-
-  useEffect(() => () => {
-    cancelAnimationFrame(raf.current);
-    if (stuff.current) { stuff.current.mic.close(); stuff.current.wave.dispose(); }
-  }, []);
+  useEffect(() => () => cancelAnimationFrame(raf.current), []);
 
   useEffect(() => {
-    if (!micOn) return;
+    if (!mic.on) return;
     const c = canvas.current!; const x = c.getContext("2d")!;
     const COL = 2;
     // paint the band background once, then scroll
@@ -52,12 +34,9 @@ function Comp({ dials, setDial, emit, locked }: ToyInnerProps) {
     };
     for (let px = 0; px < W; px += COL) paintCol(px);
     function frame() {
-      const s = stuff.current; if (!s) return;
       x.drawImage(c, -COL, 0);
       paintCol(W - COL);
-      const wv = s.wave.getValue() as Float32Array;
-      const sr = Tone.getContext().sampleRate;
-      const [pitch, clarity] = s.det.findPitch(wv, sr);
+      const [pitch, clarity] = mic.pitch();
       if (clarity > 0.9 && pitch > 60 && pitch < 1200) {
         const mFloat = 69 + 12 * Math.log2(pitch / 440);
         if (mFloat >= M_LO && mFloat <= M_HI) {
@@ -78,17 +57,12 @@ function Comp({ dials, setDial, emit, locked }: ToyInnerProps) {
     }
     raf.current = requestAnimationFrame(frame);
     return () => cancelAnimationFrame(raf.current);
-  }, [micOn, dials.autotune]);
+  }, [mic.on, dials.autotune]);
 
   return (
     <div>
-      {!micOn ? (
-        <div style={{ padding: 20, textAlign: "center" }}>
-          <button className="primary" onClick={enable}>🎤 turn the mic on</button>
-          {err && <p className="smallnote" style={{ color: "var(--bad)" }}>{err}</p>}
-          <p className="smallnote">Sing or hum — your voice becomes the gold line.</p>
-        </div>
-      ) : (
+      <MicGate on={mic.on} err={mic.err} enable={async () => { if (await mic.enable()) emit("micOn"); }}
+        hint="Sing or hum — your voice becomes the gold line.">
         <>
           <canvas ref={canvas} className="scope" width={W} height={H} style={{ height: H }} />
           <div className="readout">
@@ -104,7 +78,7 @@ function Comp({ dials, setDial, emit, locked }: ToyInnerProps) {
             then try landing a note dead-center (±5¢!).
           </p>
         </>
-      )}
+      </MicGate>
     </div>
   );
 }

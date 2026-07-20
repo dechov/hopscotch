@@ -14,7 +14,7 @@ it. Current layout:
 ```
 src/
   audio/       Tone.js engine wrapper (singleton context, transport, master volume/mute)
-  input/       Web MIDI input (mic input for pitch lives inline in spectrumScope.tsx for now)
+  input/       Web MIDI input (mic+pitchy pipeline is shared: src/toys/mic.tsx)
   content/     glossary.ts (moves/scales/ratios — pedagogy source of truth), court.ts (map data)
   state/       zustand progress store (localStorage)
   toys/        each toy = one file exporting `def: ToyDef`; registry.ts is the whole "registry"
@@ -56,6 +56,18 @@ just markdown with `<Toy id="...">` embeds.
   it should just correctly expose its dials and emit events. This is what keeps adding new
   lessons cheap — reordering/relocking an existing toy for a new teaching purpose never
   requires touching the toy's component code.
+
+## 3a. Shared toy components — extract on the third use
+
+Reused pieces live beside the toys and are the norm, not the exception: **`Dials`** (dial
+rows), **`Readout`** (chip rows), **`PitchSurface`** (discrete keys/pads/frets),
+**`useMic`/`MicGate`** (`mic.tsx` — the whole mic+pitchy pipeline and the consistent
+"turn the mic on" gate; every mic toy uses it), **`embedView`** (per-embed hide/choices),
+**`src/audio/tuning.ts`** (worlds), and the engine's `blip`/`blipSeq`. The rule of thumb:
+hand-roll once, tolerate twice, extract on the third use — and when extracting, migrate the
+existing copies in the same change so there's one pattern, not three. UX motivation is equal
+to the code motivation: shared components are what make every toy's readouts, dials, and mic
+gates look and behave identically.
 
 ## 4. Guidance runner is ~100 lines, not a state-machine framework
 

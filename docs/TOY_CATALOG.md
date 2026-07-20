@@ -17,7 +17,7 @@ this file. If you add/remove/rename a toy, update this table in the same change.
 | `home-finder` | Does It Sound Finished? | home | finding "Home" by ear, no theory | Home (5) |
 | `drone-pad` | Drone Pad | home | the workhorse pitch surface; noodle over a drone; MIDI-enabled | Home (5), The Five-Tone Scale (6), Flavor (7), Put It Together (17), The Band |
 | `move-ladder` | The Ladder | moves | the move-word vocabulary (scoot…fly), by ear + motion | The Ladder (9) |
-| `pulse-grid` | Pulse Grid | time | beat as boxes; the "lean" (swing) knob; extra stream = a rhythm harmonic (3- or 5-against-2) | Pulse (10), Lean the Time (15) |
+| `pulse-grid` | Pulse Grid | time | beat as boxes; the "lean" (swing) knob; extra stream = a rhythm harmonic (3- or 5-against-2); Euclidean magic fills (tresillo, cinquillo…) | Pulse (10), Lean the Time (15) |
 | `tone-forge` | Tone Forge | timbre | sound design: ADSR, dirt (distortion), wobble (vibrato), harmonicity; MIDI-enabled | Make a Sound (11), Lean the Time (15) |
 | `pluck-string` | Pluck the String | timbre | physically-modeled string: pluck position + touch-harmonics | Make a Sound (11) |
 | `chant-board` | Chant Board | time | Old MacDonald as moves + longs/shorts | Chant a Song (12) |
@@ -37,8 +37,11 @@ this file. If you add/remove/rename a toy, update this table in the same change.
 | `sound-picture` | Sound Picture | timbre | live mic spectrogram on the log ruler: melody as a drawn line, helpers as parallel stripes; pitchy voice trace; freeze | **not embedded yet — Toybox only** (natural home: See Your Sound (3)) |
 | `sound-numbers` | Sound Is Numbers | sound | digitization: time grid (sample dots, Nyquist alias overlay) + loudness grid (audible via Tone.BitCrusher) — the quantization trilogy with note-snapping | **not embedded yet — Toybox only** |
 | `voice-ruler` | Your Voice on the Ruler | ear | pitchy pitch trace of your own voice on the 12-band log ruler, with an "auto-tune trace" overlay showing what quantizing keeps vs. discards | **not embedded yet — Toybox only** |
+| `knots` | Sound Knots | sound | Lissajous figures: two tones draw one curve — resting ratios hold a closed knot, lean makes it tumble at the wobble rate | **not embedded yet — Toybox only** |
+| `many-singers` | How Many Singers? | timbre | the wobble redeemed: stacked detuned voices turn beating into lushness (chorus/choir/strings) | **not embedded yet — Toybox only** |
+| `pitch-spiral` | The Pitch Spiral | color | pitch as a coil: around once = an octave, octave-mates share a spoke; tap to play, mic voice climbs the coil live | **not embedded yet — Toybox only** |
 
-**31 toys total; 23 embedded across lessons, 8 currently Toybox-only (`the-drift`, `same-note`, `ratio-map`, `song-passport`, `wobble-stripes`, `sound-picture`, `sound-numbers`, `voice-ruler`).**
+**34 toys total; 23 embedded across lessons, 11 currently Toybox-only (`the-drift`, `same-note`, `ratio-map`, `song-passport`, `wobble-stripes`, `sound-picture`, `sound-numbers`, `voice-ruler`, `knots`, `many-singers`, `pitch-spiral`).**
 
 ## Toys that are specced but NOT built
 

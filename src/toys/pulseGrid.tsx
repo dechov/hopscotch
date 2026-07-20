@@ -80,6 +80,19 @@ function Comp({ dials, setDial, locked, emit }: ToyInnerProps) {
             <option value="5">5 over 2 — the tumble</option>
           </select></label>
       </div>
+      <div className="dialrow">
+        <span className="smallnote">✨ magic fills (spread k hits as evenly as they'll go — Euclid's trick):</span>
+        {[[3, 8, "tresillo"], [5, 8, "cinquillo"], [5, 16, "quintal"], [7, 16, "brazilian"]].map(([k, n, name]) => (
+          <button key={`${k}${n}`} style={{ fontSize: 14, padding: "4px 10px" }}
+            onClick={() => {
+              const K = k as number, N = n as number;
+              if (N > slots) setDial("slots", N);
+              setGrid(g => g.map((row, r) => r === 2
+                ? Array.from({ length: 16 }, (_, i) => i < N && Math.floor(((i + 1) * K) / N) > Math.floor((i * K) / N))
+                : row));
+            }}>{k} in {n} — {name}</button>
+        ))}
+      </div>
       <p className="smallnote">Same boxes + the lean knob = groove. That's swing: the boxes don't change, the timing
         leans. The <b>extra stream</b> is a rhythm <i>harmonic</i>: 3-against-2 is the leap (3:2) of time —
         speed any of this up (Speed Trick) and the streams become intervals.</p>

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Tone } from "../audio/engine";
-import { PitchDetector } from "pitchy";
+import { useMic, MicGate } from "./mic";
 import type { ToyDef, ToyInnerProps } from "./types";
 
 // A spectrogram: the log-frequency ruler finally gets its time axis. Frequency runs up the
@@ -12,36 +12,18 @@ const yOfF = (f: number) => H - (Math.log2(f / F_LO) / OCTS) * H;
 
 function Comp({ dials, setDial, emit, locked }: ToyInnerProps) {
   const canvas = useRef<HTMLCanvasElement>(null);
-  const [micOn, setMicOn] = useState(false);
-  const [err, setErr] = useState("");
-  const stuff = useRef<{ mic: Tone.UserMedia; fft: Tone.Analyser; wave: Tone.Analyser; det: any } | null>(null);
+  const mic = useMic({ fft: 2048 });
   const raf = useRef(0);
 
-  async function enable() {
-    try {
-      const mic = new Tone.UserMedia();
-      await mic.open();
-      const fft = new Tone.Analyser("fft", 2048);
-      const wave = new Tone.Analyser("waveform", 2048);
-      mic.connect(fft); mic.connect(wave);
-      stuff.current = { mic, fft, wave, det: PitchDetector.forFloat32Array(2048) };
-      setMicOn(true);
-      emit("micOn");
-    } catch { setErr("Mic blocked — allow microphone access and try again."); }
-  }
-
-  useEffect(() => () => {
-    cancelAnimationFrame(raf.current);
-    if (stuff.current) { stuff.current.mic.close(); stuff.current.fft.dispose(); stuff.current.wave.dispose(); }
-  }, []);
+  useEffect(() => () => cancelAnimationFrame(raf.current), []);
 
   useEffect(() => {
-    if (!micOn) return;
+    if (!mic.on) return;
     const c = canvas.current!; const x = c.getContext("2d")!;
     x.fillStyle = "#26282c"; x.fillRect(0, 0, W, H);
     const COL = 2;
     function frame() {
-      const s = stuff.current; if (!s) return;
+      const s = mic.nodes.current; if (!s?.fft) return;
       if (!dials.frozen) {
         const vals = s.fft.getValue() as Float32Array;
         const sr = Tone.getContext().sampleRate;
@@ -55,8 +37,7 @@ function Comp({ dials, setDial, emit, locked }: ToyInnerProps) {
           x.fillRect(W - COL, py, COL, 1);
         }
         if (dials.trace) {
-          const wv = s.wave.getValue() as Float32Array;
-          const [pitch, clarity] = s.det.findPitch(wv, sr);
+          const [pitch, clarity] = mic.pitch();
           if (clarity > 0.9 && pitch > F_LO && pitch < F_LO * Math.pow(2, OCTS)) {
             x.fillStyle = "#f2c14e";
             x.fillRect(W - COL, yOfF(pitch) - 1.5, COL, 3);
@@ -73,17 +54,12 @@ function Comp({ dials, setDial, emit, locked }: ToyInnerProps) {
     }
     raf.current = requestAnimationFrame(frame);
     return () => cancelAnimationFrame(raf.current);
-  }, [micOn, dials.frozen, dials.trace]);
+  }, [mic.on, dials.frozen, dials.trace]);
 
   return (
     <div>
-      {!micOn ? (
-        <div style={{ padding: 20, textAlign: "center" }}>
-          <button className="primary" onClick={enable}>🎤 turn the mic on</button>
-          {err && <p className="smallnote" style={{ color: "var(--bad)" }}>{err}</p>}
-          <p className="smallnote">Then sing, whistle, hum — and watch sound become a picture.</p>
-        </div>
-      ) : (
+      <MicGate on={mic.on} err={mic.err} enable={async () => { if (await mic.enable()) emit("micOn"); }}
+        hint="Then sing, whistle, hum — and watch sound become a picture.">
         <>
           <div style={{ position: "relative" }}>
             <canvas ref={canvas} className="scope" width={W} height={H} style={{ height: H }} />
@@ -103,7 +79,7 @@ function Comp({ dials, setDial, emit, locked }: ToyInnerProps) {
             Whistle for one clean line; say "shhh" for a waterfall of everything at once.
           </p>
         </>
-      )}
+      </MicGate>
     </div>
   );
 }
