@@ -17,6 +17,7 @@ plausible-sounding, so it's easy for a new session to innocently suggest reverti
 | The pentatonic scale | **the five-tone scale** | plain ELI5 name; "pentatonic" stays as the grown-up gloss. Lesson id `five-tone`; scale keys `five-major`/`five-minor` (already descriptive, kept). |
 | The diatonic scale | **the seven-tone scale** | same pattern; lesson id and scale key are both `seven-tone`. |
 | Sticker names for five-tone degrees | **Home, Park, School, Farm, Woods** | not "1st degree, 2nd degree" etc. — see PEDAGOGY.md. |
+| A tuning system, kid-facing | **a world** | "tuning world" on first mention; `World` in code (`src/audio/tuning.ts`). Chosen over "tuning"/"temperament" (jargon) and "scale" (already means a note-subset). |
 
 ## Rejected names (don't reintroduce without a real reason)
 

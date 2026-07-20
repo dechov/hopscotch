@@ -39,6 +39,17 @@ function Comp({ dials, setDial, locked, emit }: ToyInnerProps) {
   useEffect(() => { Tone.getTransport().bpm.rampTo(dials.tempo, 0.1); }, [dials.tempo]);
   useEffect(() => { Tone.getTransport().swing = dials.swing; }, [dials.swing]);
 
+  // the extra stream: k evenly spaced clicks per two beats — a rhythm "harmonic" riding the pulse
+  useEffect(() => {
+    const k = parseInt(dials.stream);
+    if (!dials.playing || !k || !isArmed()) return;
+    const ping = new Tone.MembraneSynth({ pitchDecay: 0.004, octaves: 1.5, volume: -10 }).toDestination();
+    const t = Tone.getTransport();
+    const id = t.scheduleRepeat((time) => ping.triggerAttackRelease("A5", "32n", time),
+      Tone.Time("2n").toSeconds() / k);
+    return () => { t.clear(id); ping.dispose(); };
+  }, [dials.playing, dials.stream, dials.tempo]);
+
   return (
     <div>
       <div className="dawgrid" style={{ gridTemplateColumns: `110px repeat(${slots}, 1fr)` }}>
@@ -62,8 +73,16 @@ function Comp({ dials, setDial, locked, emit }: ToyInnerProps) {
           <select disabled={locked.has("slots")} value={dials.slots} onChange={e => setDial("slots", parseInt(e.target.value))}>
             <option value={8}>8</option><option value={16}>16</option>
           </select></label>
+        <label className="dial" style={{minWidth:150}}><span>extra stream</span>
+          <select disabled={locked.has("stream")} value={dials.stream} onChange={e => setDial("stream", e.target.value)}>
+            <option value="0">off</option>
+            <option value="3">3 over 2 — the gallop</option>
+            <option value="5">5 over 2 — the tumble</option>
+          </select></label>
       </div>
-      <p className="smallnote">Same boxes + the lean knob = groove. That's swing: the boxes don't change, the timing leans.</p>
+      <p className="smallnote">Same boxes + the lean knob = groove. That's swing: the boxes don't change, the timing
+        leans. The <b>extra stream</b> is a rhythm <i>harmonic</i>: 3-against-2 is the leap (3:2) of time —
+        speed any of this up (Speed Trick) and the streams become intervals.</p>
     </div>
   );
 }
@@ -78,6 +97,8 @@ export const def: ToyDef = {
     tempo:   { type: "slider", min: 60, max: 160, step: 1, default: 100, label: "tempo" },
     swing:   { type: "slider", min: 0, max: 0.6, step: 0.01, default: 0, label: "lean (swing)" },
     slots:   { type: "select", default: 8, label: "slots", options: [{ value: "8", label: "8" }, { value: "16", label: "16" }] },
+    stream:  { type: "select", default: "0", label: "extra stream", options: [
+      { value: "0", label: "off" }, { value: "3", label: "3 over 2" }, { value: "5", label: "5 over 2" }] },
   },
   component: Comp,
 };

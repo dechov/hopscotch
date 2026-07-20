@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { ReactNode } from "react";
 import { Tone, isArmed } from "../audio/engine";
+import { edoSteps, saveWorld, type World } from "../audio/tuning";
 import { Dials } from "./Dials";
 import type { ToyDef, ToyInnerProps } from "./types";
 
@@ -42,6 +43,7 @@ type Phase =
 function Comp({ dials, emit, locked, setDial }: ToyInnerProps) {
   const homeHz = dials.homeHz as number;
   const [phase, setPhase] = useState<Phase>({ kind: "octave" });
+  const [kept, setKept] = useState<World | null>(null);
   const synth = useRef<Tone.PolySynth | null>(null);
 
   useEffect(() => () => { synth.current?.dispose(); synth.current = null; }, []);
@@ -94,7 +96,7 @@ function Comp({ dials, emit, locked, setDial }: ToyInnerProps) {
       ))}
       {phase.kind === "ask" && (
         <g>
-          <line x1={xOf(cand)} x2={xOf(cand)} y1={16} y2={H - 18} stroke="#f4f1e8" strokeWidth={2} strokeDasharray="4 3" />
+          <line x1={xOf(cand)} x2={xOf(cand)} y1={16} y2={H - 18} stroke="#f08a6b" strokeWidth={2} strokeDasharray="4 3" />
           <text x={xOf(cand)} y={12} fontSize={11} fill="#f4f1e8" textAnchor="middle">?</text>
         </g>
       )}
@@ -187,9 +189,26 @@ function Comp({ dials, emit, locked, setDial }: ToyInnerProps) {
           {btn("▶ hear the crack", () => playTogether([chain[nearestIdx], cand]))}
           {btn("▶ pure ×3/2, then tempered", () => playSeq([0, FIFTH, 0, tf], 0.45))}
           {btn(`▶ the smoothed ${n}-note circle`, () => playSeq(Array.from({ length: n + 1 }, (_, i) => (i * 1200) / n), Math.max(0.16, 1.6 / n), 0.3))}
+          {btn(`💾 keep this world (${n} notes)`, () => {
+            setKept(saveWorld({ name: `my ${n}-circle`, blurb: "made in the Same-Note game", steps: edoSteps(n) }));
+            emit("worldKept");
+          }, true)}
           {btn("un-merge — keep both and continue", () => advance(n))}
-          {btn("start over", () => setPhase({ kind: "octave" }))}
+          {btn("start over", () => { setKept(null); setPhase({ kind: "octave" }); })}
         </div>
+        {kept && (
+          <div>
+            <p className="smallnote"><b>“{kept.name}” is yours now</b> — play it below, and find it
+              waiting in the sketchbook's world picker to compose with.</p>
+            <div className="dialrow">
+              {kept.steps.map((c, i) => (
+                <button key={i} style={{ minWidth: 44, padding: "10px 8px" }}
+                  onClick={() => playSeq([c], 0, 0.5)}>{nameOf(i)}</button>
+              ))}
+              <button onClick={() => playSeq([...kept.steps, 1200], Math.max(0.16, 1.6 / kept.steps.length), 0.3)}>▶ all</button>
+            </div>
+          </div>
+        )}
       </>
     );
   }

@@ -21,11 +21,14 @@ bundle) has been verified. That's the honest starting point. In priority order:
 
 ## Built (see docs/TOY_CATALOG.md for the full list)
 
-All 18 lessons, all 26 toys — incl. the Tone Ruler (log-frequency instrument ruler; any-N
+All 18 lessons, all 28 toys — incl. the Tone Ruler (log-frequency instrument ruler; any-N
 EDO, pure-ratio, five-tone, and equal-Hz helper-ladder snaps), **Is That the Same Note?**
-(the first-principles scale-derivation game) and the **Ratio Map** (playable 5-limit JI
-lattice with comma walks) — see `docs/FIRST-PRINCIPLES.md` for the design notes behind those
-two and the backlog they came from. Plus the court/toybox/sketchbook pages, MIDI input (Drone Pad, Tone Forge,
+(the first-principles scale-derivation game — closures can be **kept as worlds**), the
+**Ratio Map** (playable 5-limit JI lattice with comma walks and the roll-it-up temper
+slider), the **Song Passport**, and **Wobble Stripes** — see `docs/FIRST-PRINCIPLES.md`.
+**Tuning worlds** (`src/audio/tuning.ts`, DECISIONS.md §11) thread through the Same-Note
+game, the sketchbook (per-piece world with MOS band shading + world snapping), and the
+Song Passport. Plus the court/toybox/sketchbook pages, MIDI input (Drone Pad, Tone Forge,
 Earshot), master volume/mute, the `?debug=1` overlay, and the sketchbook's checkpoints/
 branching/export-import/swing **plus its log-pitch canvas view** — the lead track can be
 edited either as the classic pentatonic boxes or on a continuous log₂(frequency) canvas
@@ -65,11 +68,13 @@ DECISIONS.md §9).
 - **`mode="demo"`** on the `<Toy>` embed contract — autoplay, no input, mentioned in early
   embed-contract planning (alongside `guided`/`free`) but never implemented; only `guided` and
   `free` exist in code today.
-- **From `docs/FIRST-PRINCIPLES.md`** (designed there, not built): the Moiré/beating visual
-  toy; multi-subdivision Pulse Grid ("rhythm harmonics"); the Ratio Map's "roll up the
-  lattice" temper control; a melody-vs-harmony lesson (Tone Ruler as theremin vs. Ratio Map,
-  voice leading, Flight of the Bumblebee callback); wingbeat/engine videos
-  (content-to-source); pipe/glass resonance (parked).
+- **From `docs/FIRST-PRINCIPLES.md`**, still not built: a melody-vs-harmony lesson (Tone
+  Ruler as theremin vs. Ratio Map, voice leading, Flight of the Bumblebee callback); a full
+  isomorphic generator×period pad grid (the Same-Note game's "play your world" row and the
+  Ratio Map are its partial stand-ins); court squares for the Toybox-only tuning toys;
+  wingbeat/engine videos (content-to-source); pipe/glass resonance (parked). The Moiré toy
+  (`wobble-stripes`), rhythm-harmonic Pulse Grid stream, and the Ratio Map roll-up temper
+  slider ARE now built.
 
 ## Ideas raised but not designed in detail ("cool, not yet")
 

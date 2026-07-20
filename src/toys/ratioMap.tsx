@@ -72,7 +72,18 @@ function Comp({ dials, emit, locked, setDial }: ToyInnerProps) {
     return () => { o.stop().dispose(); };
   }, [dials.drone, homeHz]);
 
-  const freqOf = (n: Node) => homeHz * (n.num / n.den);
+  // roll-up: at temper=1 the syntonic comma is gone — every third IS four fifths, the
+  // 3-D lattice collapses onto one chain (quarter-comma meantone: fifths 696.6¢, thirds pure)
+  const tau = (dials.temper as number) ?? 0;
+  const MT_FIFTH = 696.578;
+  const fold = (c: number) => ((c % 1200) + 1200) % 1200;
+  const centsT = (n: Node) => (1 - tau) * n.cents + tau * fold((n.f + 4 * n.t) * MT_FIFTH);
+  const freqOf = (n: Node) => homeHz * Math.pow(2, centsT(n) / 1200);
+  const dxE = DX * (1 - tau * 0.55);
+  const lx = (f: number, t: number) => 75 + ((f + 4 * t * tau) + F_RANGE + (t * (1 - tau) + T_RANGE) * 0.5) * dxE - T_RANGE * 0.5 * dxE;
+  const ly = (t: number) => yOf(t * (1 - tau));
+  const rr = 21 - tau * 9;
+  const labelOp = 1 - Math.max(0, Math.min(1, (tau - 0.4) / 0.4));
 
   function play(n: Node) {
     blip(freqOf(n), 0.5);
@@ -110,7 +121,7 @@ function Comp({ dials, emit, locked, setDial }: ToyInnerProps) {
     }, w.steps.length * STEP + 350));
   }
 
-  const centsFromHome = picked ? Math.round(1200 * Math.log2(picked.num / picked.den) * 10) / 10 : null;
+  const centsFromHome = picked ? Math.round(centsT(picked) * 10) / 10 : null;
 
   return (
     <div>
@@ -119,11 +130,11 @@ function Comp({ dials, emit, locked, setDial }: ToyInnerProps) {
         {NODES.map(n => (
           <g key={`r${n.f},${n.t}`}>
             {n.f < F_RANGE && (
-              <line x1={xOf(n.f, n.t)} y1={yOf(n.t)} x2={xOf(n.f + 1, n.t)} y2={yOf(n.t)}
+              <line x1={lx(n.f, n.t)} y1={ly(n.t)} x2={lx(n.f + 1, n.t)} y2={ly(n.t)}
                 stroke="rgba(244,241,232,.18)" />
             )}
             {n.t < T_RANGE && (
-              <line x1={xOf(n.f, n.t)} y1={yOf(n.t)} x2={xOf(n.f, n.t + 1)} y2={yOf(n.t + 1)}
+              <line x1={lx(n.f, n.t)} y1={ly(n.t)} x2={lx(n.f, n.t + 1)} y2={ly(n.t + 1)}
                 stroke="rgba(244,241,232,.18)" />
             )}
           </g>
@@ -131,7 +142,7 @@ function Comp({ dials, emit, locked, setDial }: ToyInnerProps) {
         {/* active walk path */}
         {walkPath && walkPath.steps.slice(1).map(([f, t], i) => {
           const [pf, pt] = walkPath.steps[i];
-          return <line key={`w${i}`} x1={xOf(pf, pt)} y1={yOf(pt)} x2={xOf(f, t)} y2={yOf(t)}
+          return <line key={`w${i}`} x1={lx(pf, pt)} y1={ly(pt)} x2={lx(f, t)} y2={ly(t)}
             stroke="#9ad0e8" strokeWidth={2.5} opacity={0.8} />;
         })}
         {/* nodes */}
@@ -141,16 +152,16 @@ function Comp({ dials, emit, locked, setDial }: ToyInnerProps) {
           const isPicked = picked === n;
           return (
             <g key={`${n.f},${n.t}`} onPointerDown={() => play(n)} style={{ cursor: "pointer" }}>
-              <circle cx={xOf(n.f, n.t)} cy={yOf(n.t)} r={21}
+              <circle cx={lx(n.f, n.t)} cy={ly(n.t)} r={rr}
                 fill={isLit ? "#9ad0e8" : isHome ? "rgba(242,193,78,.25)" : "rgba(244,241,232,.06)"}
                 stroke={isHome ? "#f2c14e" : isPicked ? "#f4f1e8" : "rgba(244,241,232,.4)"}
                 strokeWidth={isHome || isPicked ? 2.5 : 1} />
-              <text x={xOf(n.f, n.t)} y={yOf(n.t) - 2} textAnchor="middle" fontSize={n.num > 99 || n.den > 99 ? 8 : 10}
-                fontFamily="monospace" fill={isLit ? "#2c2e33" : "#f4f1e8"}>{n.num}</text>
-              <line x1={xOf(n.f, n.t) - 9} x2={xOf(n.f, n.t) + 9} y1={yOf(n.t) + 1.5} y2={yOf(n.t) + 1.5}
-                stroke={isLit ? "#2c2e33" : "#9a968a"} strokeWidth={0.75} />
-              <text x={xOf(n.f, n.t)} y={yOf(n.t) + 12} textAnchor="middle" fontSize={n.num > 99 || n.den > 99 ? 8 : 10}
-                fontFamily="monospace" fill={isLit ? "#2c2e33" : "#cfcabb"}>{n.den}</text>
+              <text x={lx(n.f, n.t)} y={ly(n.t) - 2} textAnchor="middle" fontSize={n.num > 99 || n.den > 99 ? 8 : 10}
+                fontFamily="monospace" fill={isLit ? "#2c2e33" : "#f4f1e8"} opacity={labelOp}>{n.num}</text>
+              <line x1={lx(n.f, n.t) - 9} x2={lx(n.f, n.t) + 9} y1={ly(n.t) + 1.5} y2={ly(n.t) + 1.5}
+                stroke={isLit ? "#2c2e33" : "#9a968a"} strokeWidth={0.75} opacity={labelOp} />
+              <text x={lx(n.f, n.t)} y={ly(n.t) + 12} textAnchor="middle" fontSize={n.num > 99 || n.den > 99 ? 8 : 10}
+                fontFamily="monospace" fill={isLit ? "#2c2e33" : "#cfcabb"} opacity={labelOp}>{n.den}</text>
             </g>
           );
         })}
@@ -171,13 +182,15 @@ function Comp({ dials, emit, locked, setDial }: ToyInnerProps) {
         ))}
       </div>
 
-      <Dials names={["homeHz", "drone"]} specs={def.dials} values={dials} locked={locked} set={setDial} />
+      <Dials names={["temper", "homeHz", "drone"]} specs={def.dials} values={dials} locked={locked} set={setDial} />
       <p className="smallnote">
         This is the map of <b>pure ratios</b> (5-limit just intonation). Rightward steps stack leaps
         (×3/2); diagonal steps stack pure skips (×5/4); octaves are folded away. The walks trace two
         famous paths whose ends <i>almost</i> meet — at the end you hear both "ends" at once, one comma
-        apart, beating. Nudging that crack shut is what temperament is (see The Drift, and the
-        Same-Note game).
+        apart, beating. Now drag <b>roll it up</b>: the little crack is tempered away, every skip becomes
+        exactly four leaps, and the whole map collapses onto one chain — that flattening IS
+        temperament (meantone, here with pure skips). Rolled up, the walks land silent: no crack
+        left to hear.
       </p>
     </div>
   );
@@ -189,6 +202,7 @@ export const def: ToyDef = {
   blurb: "Every pure ratio on one map — walk the paths that almost close.",
   thread: "sound",
   dials: {
+    temper: { type: "slider", min: 0, max: 1, step: 0.01, default: 0, label: "roll it up (temper the crack)" },
     homeHz: { type: "slider", min: 110, max: 440, step: 1, default: 220, label: "home (Hz)" },
     drone:  { type: "toggle", default: false, label: "home drone" },
   },

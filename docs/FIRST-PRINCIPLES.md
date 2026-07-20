@@ -205,6 +205,26 @@ lesson: *equal Hz ≠ equal musical distance*. Built as the Tone Ruler's "helper
 (ticks at k × Home/8, labeled by harmonic number, visibly bunching rightward). It belongs
 exactly where it landed: next to the wave-builder's helpers and the ruler's log axis.
 
+## 5b. Temperament as quantization (Paul's later note; status: captured + one line of copy)
+
+Paul's framing: limiting music to discrete equal-tempered notes is a loss of richness
+fundamentally similar to discretization / quantization / digitization — even auto-tune.
+**Does it make sense? Yes — with one refinement worth keeping.** The mapping is real:
+equal temperament quantizes the pitch continuum to a uniform grid exactly the way an ADC
+quantizes voltage; auto-tune literally IS pitch quantization (and the sketchbook's canvas
+snap is a hand-operated auto-tune — that's now said in its copy); DAW rhythm-quantize is the
+same operation in time, which closes the loop with the app's rhythm-is-pitch thesis. What
+quantization discards is exactly what the app celebrates as "the in-between": blue notes,
+bends, vibrato, the pure ratios between frets. The refinement: unlike audio digitization,
+where a finer grid is strictly higher fidelity, temperament's grid is not merely lossy —
+the loss *buys* something (closure, modulation, interchangeable keys), and there is no
+single "original signal" being approximated (JI is a lattice of ideals, not a master tape).
+So the honest one-liner for lesson copy is: **"snapping is auto-tune: it tidies, it costs,
+and choosing when to snap is a musical decision, not a technical one."** Best homes when a
+lesson wants it: the sketchbook canvas (built), the Tone Ruler's snap dial, and any future
+recording/mic feature (where real auto-tune could be demonstrated on the learner's own
+voice — content idea, not designed).
+
 ## 6. Resonance in pipes and glasses (status: parked, low priority per Paul)
 
 How a resonant frequency emerges from an air column or a wine glass (standing waves; length
@@ -224,6 +244,23 @@ designed further yet.
   (film 24/s · piano's lowest A 27.5 · bass E1 41.2 · engine ~100 · bumblebee ~200 ·
   A440), §1.
 - This file; TOY_CATALOG/ROADMAP updated.
+
+Second pass (same branch, after the "keystone" go-ahead):
+- **Tuning worlds** — `src/audio/tuning.ts` + DECISIONS.md §10a: the shared object, curated
+  built-ins (incl. porcupine and pajara from the Erlich paper, both as 22-EDO subsets), saved
+  worlds from the game.
+- **Same-Note game hands off its result**: "keep this world" at any closure → playable pad
+  row in place + appears in the sketchbook's world picker.
+- **Sketchbook**: per-piece world (snapshotted in the doc), world snapping on the canvas,
+  MOS small-step shading (generalized black keys), étude prompts (crack / continuity / drift).
+- **Song Passport** toy (§ "song passport" idea): Old MacDonald stored as chain-of-fifths
+  moves, rendered in 8 worlds via each world's best fifth.
+- **Wobble Stripes** toy: the Moiré analogy, built (§1).
+- **Pulse Grid**: rhythm-harmonic extra stream (3- or 5-against-2), §1.
+- **Ratio Map**: "roll it up" temper slider — lattice collapses onto the meantone chain,
+  comma walks land silent at full temper (§3's designed item, built).
+- **Toybox**: "start here — the big surprises" featured shelf + thread-grouped shelves.
+- The Band lesson: blue-zone paragraph — the microtonal door via feel (§ blue notes).
 
 Deliberate exceptions to note: the Same-Note Game keeps its branching *inside the toy*
 (normally pedagogy lives in guides — DECISIONS.md §3/§4). The branching decision tree IS the

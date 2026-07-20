@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import type { PointerEvent as ReactPointerEvent, ReactElement } from "react";
 import { Tone, isArmed, armAudio, blip } from "../audio/engine";
 import { midiToFreq, midiName } from "../audio/notes";
+import { allWorlds, smallSteps, type World } from "../audio/tuning";
 
 const STEPS = 16;
 const LEAD_ROWS = [81, 79, 76, 74, 72, 69, 67, 64, 62, 60];   // C penta, 2 octaves, top→down
@@ -12,7 +13,8 @@ const FIVE_PCS = [0, 2, 4, 7, 9];                              // the piece's gr
 // A lead note is a step plus a (possibly fractional) midi number — fractional midi encodes
 // any frequency while staying structured/diffable, which the commit model depends on.
 type Note = { s: number; m: number };
-type Doc = { tempo: number; swing?: number; lead: Note[]; bass: boolean[][]; drums: boolean[][] };
+// world: an optional per-piece tuning, snapshotted (not referenced) so exported pieces carry it
+type Doc = { tempo: number; swing?: number; world?: World; lead: Note[]; bass: boolean[][]; drums: boolean[][] };
 type Commit = { id: string; ts: number; message: string; doc: Doc };
 type Piece = { id: string; name: string; commits: Commit[] };
 
@@ -75,7 +77,21 @@ const yOf = (m: number) => CPAD + (1 - (m - M_LO) / (M_HI - M_LO)) * (CH - 2 * C
 const mOf = (y: number) => M_LO + (1 - (y - CPAD) / (CH - 2 * CPAD)) * (M_HI - M_LO);
 const colX = (c: number) => CX0 + (c / STEPS) * (CX1 - CX0);
 
-function snapMidi(m: number, mode: string): number {
+// every playable spot of a world, as (fractional) midi anchored on the Cs
+function worldDegrees(world: World): { m: number; small: boolean }[] {
+  const flags = smallSteps(world.steps);
+  const out: { m: number; small: boolean }[] = [];
+  for (let oct = 3; oct <= 7; oct++)
+    world.steps.forEach((c, i) => out.push({ m: 12 * oct + c / 100, small: flags[i] }));
+  return out.sort((a, b) => a.m - b.m);
+}
+
+function snapMidi(m: number, mode: string, world?: World): number {
+  if (mode === "world" && world) {
+    let best = m, bd = Infinity;
+    for (const d of worldDegrees(world)) { const dd = Math.abs(d.m - m); if (dd < bd) { bd = dd; best = d.m; } }
+    return Math.round(best * 100) / 100;
+  }
   if (mode === "grid") return Math.round(m);
   if (mode === "five") {
     let best = m, bd = Infinity;
@@ -175,9 +191,14 @@ export default function Daw() {
       setDoc(d => { const n = clone(d); n.lead = n.lead.filter(x => !near(x)); return n; });
       return;
     }
-    const m = snapMidi(raw, canvasSnap);
+    const m = snapMidi(raw, doc.world && canvasSnap !== "free" ? "world" : canvasSnap, doc.world);
     setDoc(d => { const n = clone(d); n.lead = [...n.lead, { s: c, m }]; return n; });
     blip(midiToFreq(m), 0.3);
+  }
+  function setWorld(id: string) {
+    const w = allWorlds().find(x => x.id === id);
+    setDoc(d => { const n = clone(d); if (w) n.world = w; else delete n.world; return n; });
+    setCanvasSnap(w ? "world" : "five");
   }
 
   // ── pieces & commits ──
@@ -276,13 +297,34 @@ export default function Daw() {
         {offGrid > 0 && (
           <p className="smallnote">{offGrid} in-between note{offGrid > 1 ? "s" : ""} (placed on the canvas) {offGrid > 1 ? "don't" : "doesn't"} fit these boxes — switch to canvas view to see and edit them.</p>
         )}
+        {doc.world && (
+          <p className="smallnote">This piece lives in <b>{doc.world.name}</b> — the boxes think in the
+            familiar 12, so its notes are best seen and edited on the canvas.</p>
+        )}
       </div>
     );
   }
 
   function leadCanvas() {
     const bands: ReactElement[] = [];
-    for (let m = M_LO; m <= M_HI; m++) {
+    if (doc.world) {
+      // the piece's world: one band per degree, shaded dark where the step above is "small"
+      // (the generalized black keys), boundaries at midpoints between degrees
+      const degs = worldDegrees(doc.world).filter(d => d.m >= M_LO - 1 && d.m <= M_HI + 1);
+      degs.forEach((d, i) => {
+        const lo = i === 0 ? M_LO : (degs[i - 1].m + d.m) / 2;
+        const hi = i === degs.length - 1 ? M_HI : (d.m + degs[i + 1].m) / 2;
+        bands.push(
+          <rect key={`w${i}`} x={CX0} y={yOf(Math.min(hi, M_HI))} width={CX1 - CX0}
+            height={Math.max(0, yOf(Math.max(lo, M_LO)) - yOf(Math.min(hi, M_HI)))}
+            fill={d.small ? "rgba(16,18,22,.45)" : "rgba(244,241,232,.08)"} stroke="rgba(68,71,77,.9)" strokeWidth={0.75} />
+        );
+      });
+      for (let m = 36; m <= 96; m += 12) if (m >= M_LO && m <= M_HI) bands.push(
+        <text key={`t${m}`} x={CX0 - 5} y={yOf(m) + 3} textAnchor="end" fontSize={9}
+          fontFamily="monospace" fill="#9a968a">{midiName(m)}</text>
+      );
+    } else for (let m = M_LO; m <= M_HI; m++) {
       const y0 = yOf(m + 0.5), y1 = yOf(m - 0.5);
       const black = BLACK.has(((m % 12) + 12) % 12);
       bands.push(
@@ -315,18 +357,36 @@ export default function Daw() {
           ))}
         </svg>
         <div className="dialrow" style={{ marginTop: 4 }}>
+          <label className="dial" style={{ maxWidth: 230 }}><span>this piece's world (tuning)</span>
+            <select value={doc.world?.id ?? ""} onChange={e => setWorld(e.target.value)}>
+              <option value="">standard — the familiar 12</option>
+              {allWorlds().filter(w => w.id !== "w12").map(w => (
+                <option key={w.id} value={w.id}>{w.name} — {w.blurb}</option>
+              ))}
+            </select></label>
           <label className="dial" style={{ maxWidth: 220 }}><span>snap notes to</span>
-            <select value={canvasSnap} onChange={e => setCanvasSnap(e.target.value)}>
-              <option value="five">the five-tone scale (over C)</option>
-              <option value="grid">the 12-EDO grid</option>
+            <select value={doc.world && canvasSnap !== "free" ? "world" : canvasSnap} onChange={e => setCanvasSnap(e.target.value)}>
+              {doc.world
+                ? <option value="world">the piece's world</option>
+                : <>
+                    <option value="five">the five-tone scale (over C)</option>
+                    <option value="grid">the 12-EDO grid</option>
+                  </>}
               <option value="free">nothing — any pitch</option>
             </select></label>
           <p className="smallnote" style={{ flex: 2, margin: 0 }}>
             Up = higher pitch, spaced by <b>log frequency</b> — equal distance = equal ratio, so every
-            octave is the same height and each band is 100¢. Tap to drop a note (tap a dot to remove
-            it). With snap off you can put a note <i>between</i> the bands — somewhere no piano key goes.
+            octave is the same height. Dark bands are the world's <b>small</b> steps (the generalized
+            black keys). Tap to drop a note (tap a dot to remove it); snap off reaches the pitches
+            between every band. Worlds you keep in the <b>Same-Note game</b> appear in the picker. (Snapping, by the way,
+            is auto-tune by hand: it tidies, it costs — choosing when to snap is a musical decision.)
           </p>
         </div>
+        <p className="smallnote">
+          <b>étude prompts</b> — pick one and go: <i>the crack étude</i> (build a phrase from two notes
+          less than 25¢ apart) · <i>the continuity étude</i> (a melody where no step exceeds ~50¢ — snap
+          off) · <i>the drift étude</i> (a loop that ends slightly lower than it began, on purpose).
+        </p>
       </div>
     );
   }

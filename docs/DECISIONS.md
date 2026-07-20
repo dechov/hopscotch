@@ -129,6 +129,20 @@ debug overlay, guided locking, and Shed free-mode all only see dials.
   snapshotting, not real diffing. Audio recording is meant to layer on top later, not replace
   this.
 
+## 10a. Tuning "worlds" (src/audio/tuning.ts)
+
+A **world** is the shared tuning object every surface can play in: `{id, name, blurb,
+steps: cents[]}` — nothing more. Built-ins are a deliberately short curated list (12, 19, 22,
+31, 7, 5, porcupine-in-22, pajara-in-22), not a catalog; the Same-Note game can **save** the
+world a player derives (localStorage, like pieces), and consumers read `allWorlds()`.
+Current consumers: the Same-Note game's "play your world" pads, the sketchbook (a piece may
+carry a world — snapshotted into the piece doc, not referenced, so exports stay portable;
+the canvas shades that world's small steps dark = generalized black keys, per `smallSteps`),
+and the Song Passport (which renders one melody per-world via each world's best fifth).
+Deliberately NOT a consumer yet: the Drone Pad — its 12-EDO scale/sticker pedagogy is
+load-bearing for the core curriculum, and adding a world dial there was judged overwhelm
+for the primary audience. Revisit only with a lesson that needs it.
+
 ## 10. Toy "threads" (categories) are a fixed vocabulary
 
 `THREAD_COLORS` in `src/toys/types.ts`: `sound, home, moves, time, timbre, together, color,

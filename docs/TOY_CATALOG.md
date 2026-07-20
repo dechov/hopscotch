@@ -17,7 +17,7 @@ this file. If you add/remove/rename a toy, update this table in the same change.
 | `home-finder` | Does It Sound Finished? | home | finding "Home" by ear, no theory | Home (5) |
 | `drone-pad` | Drone Pad | home | the workhorse pitch surface; noodle over a drone; MIDI-enabled | Home (5), The Five-Tone Scale (6), Flavor (7), Put It Together (17), The Band |
 | `move-ladder` | The Ladder | moves | the move-word vocabulary (scoot…fly), by ear + motion | The Ladder (9) |
-| `pulse-grid` | Pulse Grid | time | beat as boxes; the "lean" (swing) knob | Pulse (10), Lean the Time (15) |
+| `pulse-grid` | Pulse Grid | time | beat as boxes; the "lean" (swing) knob; extra stream = a rhythm harmonic (3- or 5-against-2) | Pulse (10), Lean the Time (15) |
 | `tone-forge` | Tone Forge | timbre | sound design: ADSR, dirt (distortion), wobble (vibrato), harmonicity; MIDI-enabled | Make a Sound (11), Lean the Time (15) |
 | `pluck-string` | Pluck the String | timbre | physically-modeled string: pluck position + touch-harmonics | Make a Sound (11) |
 | `chant-board` | Chant Board | time | Old MacDonald as moves + longs/shorts | Chant a Song (12) |
@@ -31,9 +31,11 @@ this file. If you add/remove/rename a toy, update this table in the same change.
 | `the-drift` | The Drift | sound | the syntonic comma pump — pure chords that sink pitch forever; why temperament exists | **not embedded — Toybox only, teacher-facing** |
 | `tone-ruler` | Tone Ruler | sound | pitch as log₂(frequency): piano bands, guitar frets, and fretless violin/mandolin strings on one continuous ruler; click/drag any frequency incl. in-between pitches; snap-tuning overlays (any-N EDO over Home, pure ratios, five-tone scale, equal-Hz helper ladder) | Lock In (4) — embedded with `choices`/`hide` narrowing it to the off/grid/pure snaps |
 | `same-note` | Is That the Same Note? | color | derive scales from first principles as a decision game: fold at the octave, stack fifths, decide at each near-miss (2, 5, 7, 12, 17…53 notes) whether to close the circle; hear each comma and its tempering | **not embedded yet — Toybox only** (see docs/FIRST-PRINCIPLES.md §2) |
-| `ratio-map` | Ratio Map | sound | the 5-limit JI lattice (per Erlich), every node a playable ratio over Home; animated comma walks (syntonic 21.5¢, Pythagorean 23.5¢) ending on the beating near-miss pair | **not embedded yet — Toybox only** (see docs/FIRST-PRINCIPLES.md §3) |
+| `ratio-map` | Ratio Map | sound | the 5-limit JI lattice (per Erlich), every node a playable ratio over Home; animated comma walks (syntonic 21.5¢, Pythagorean 23.5¢) ending on the beating near-miss pair; "roll it up" slider tempers the comma away and collapses the lattice into the meantone chain | **not embedded yet — Toybox only** (see docs/FIRST-PRINCIPLES.md §3) |
+| `song-passport` | Song Passport | color | the same melody (Old MacDonald, stored as chain-of-fifths moves) rendered in other tuning worlds — 19/31 keep it, 22 bends it, 7/5 melt it | **not embedded yet — Toybox only** |
+| `wobble-stripes` | Wobble Stripes | sound | beating as a moiré: two stripe gratings + two tones, bands and wobbles both at the difference frequency | **not embedded yet — Toybox only** |
 
-**26 toys total; 23 embedded across lessons, 3 (`the-drift`, `same-note`, `ratio-map`) currently Toybox-only.**
+**28 toys total; 23 embedded across lessons, 5 currently Toybox-only (`the-drift`, `same-note`, `ratio-map`, `song-passport`, `wobble-stripes`).**
 
 ## Toys that are specced but NOT built
 
