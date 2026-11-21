@@ -63,7 +63,7 @@ Reused pieces live beside the toys and are the norm, not the exception: **`Dials
 rows), **`Readout`** (chip rows), **`PitchSurface`** (discrete keys/pads/frets),
 **`useMic`/`MicGate`** (`mic.tsx` — the whole mic+pitchy pipeline and the consistent
 "turn the mic on" gate; every mic toy uses it), **`embedView`** (per-embed hide/choices),
-**`src/audio/tuning.ts`** (worlds), and the engine's `blip`/`blipSeq`. The rule of thumb:
+**`src/audio/tuning.ts`** (worlds), **`src/audio/edo.ts`** (spelling, A440-anchored step↔Hz and nearest-pure-ratio for any N-EDO), and the engine's `blip`/`blipSeq`. The rule of thumb:
 hand-roll once, tolerate twice, extract on the third use — and when extracting, migrate the
 existing copies in the same change so there's one pattern, not three. UX motivation is equal
 to the code motivation: shared components are what make every toy's readouts, dials, and mic

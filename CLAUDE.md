@@ -52,7 +52,7 @@ server audio workload exists. Vite + React 18 + TypeScript + MDX + Zustand + pit
 
 ## Current state (update this section as you go)
 
-All 18 lessons and 34 toys are built and passing `npm run build`. Nothing has been tested
+All 18 lessons and 35 toys are built and passing `npm run build`. Nothing has been tested
 by ear/hand yet — that's the first task in a fresh session (see ROADMAP.md "Immediate next
 steps"). Treat every toy's *audio behavior* as unverified even though the code compiles.
 

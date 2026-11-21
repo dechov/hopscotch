@@ -33,6 +33,7 @@ import { def as voiceRuler } from "./voiceRuler";
 import { def as knots } from "./knots";
 import { def as manySingers } from "./manySingers";
 import { def as pitchSpiral } from "./pitchSpiral";
+import { def as edoBench } from "./edoBench";
 
 const all: ToyDef[] = [
   waveBuilder, twoTone, wobbleScope, bendMeter, tuneIt, spectrumScope,
@@ -40,7 +41,7 @@ const all: ToyDef[] = [
   pulseGrid, toneForge, echoTrainer, ratioZoo, keysVsPure, scaleLab,
   speedTrick, slowRatios, pluckString, necklace, theDrift, toneRuler,
   sameNote, ratioMap, songPassport, wobbleStripes,
-  soundPicture, soundNumbers, voiceRuler, knots, manySingers, pitchSpiral,
+  soundPicture, soundNumbers, voiceRuler, knots, manySingers, pitchSpiral, edoBench,
 ];
 
 export const registry: Record<string, ToyDef> = Object.fromEntries(all.map(d => [d.id, d]));
