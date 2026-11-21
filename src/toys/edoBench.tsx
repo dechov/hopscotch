@@ -18,7 +18,7 @@ import type { ToyDef, ToyInnerProps } from "./types";
 // Anything played or hovered in one lights up in the other two.
 
 const W = 760, X0 = 34, X1 = 752;
-const PRESETS = [12, 19, 22, 24, 31, 41, 53, 72];
+const PRESETS = [1, 2, 3, 4, 5, 7, 12, 19, 22, 24, 31, 41, 53];
 const OPEN: [string, number][] = [["E", 4], ["B", 3], ["G", 3], ["D", 3], ["A", 2], ["E", 2]]; // tab order
 const CLR = {
   chalk: "#f4f1e8", dim: "#cfcabb", faint: "#9a968a", line: "rgba(244,241,232,.28)",
@@ -356,6 +356,7 @@ function Comp({ dials, setDial, locked, emit }: ToyInnerProps) {
     isoR = Math.max(3, Math.min(14, md * 0.46));
   }
   const KH = iso ? ROWS.length * KRH : 112;
+  const accW = Math.min(colW - 1.2, 34);   // in tiny worlds a column is huge; keep dark keys key-sized
   const KBH = KT + KH + (bearings ? 16 : 6);
 
   const keyHit = (x: number, y: number): Hit => {
@@ -366,7 +367,7 @@ function Comp({ dials, setDial, locked, emit }: ToyInnerProps) {
     }
     const p = Math.round((x - X0) / colW - 0.5) + pLo;
     if (p < pLo || p > pHi) return null;
-    if (!sp[pcOf(p, n)].natural && y - KT < KH * tierFrac(p)) return { p, exact: p };
+    if (!sp[pcOf(p, n)].natural && y - KT < KH * tierFrac(p) && Math.abs(x - xLog(p)) <= accW / 2) return { p, exact: p };
     const q = (x - X0) / colW + pLo - 0.5;   // white keys split the gap between naturals evenly
     let nat = naturals[0];
     for (const c of naturals) if (Math.abs(c - q) <= Math.abs(nat - q)) nat = c;
@@ -395,10 +396,10 @@ function Comp({ dials, setDial, locked, emit }: ToyInnerProps) {
     });
     for (let p = pLo; p <= pHi; p++) {
       if (sp[pcOf(p, n)].natural) continue;
-      const l = lit(p), x = xLog(p) - colW / 2 + 0.6, h = KH * tierFrac(p);
+      const l = lit(p), x = xLog(p) - accW / 2, h = KH * tierFrac(p);
       keyEls.push(
         <g key={`a${p}`}>
-          <rect x={x} y={KT} width={Math.max(1, colW - 1.2)} height={h} rx={1.5}
+          <rect x={x} y={KT} width={Math.max(1, accW)} height={h} rx={1.5}
             fill={l === "on" ? CLR.good : l === "focus" ? "#6f8f74" : accFill(p)}
             stroke={l === "hover" ? CLR.sound : sameClass(p) ? CLR.faint : "#14161a"} strokeWidth={l === "hover" ? 1.5 : 0.8} />
         </g>
@@ -458,9 +459,9 @@ function Comp({ dials, setDial, locked, emit }: ToyInnerProps) {
     gEls.push(<line key={`f${k}`} x1={x} x2={x} y1={GY(0) - 10} y2={GY(5) + 10} stroke="#a7a294" strokeWidth={k === n ? 2 : 0.9} opacity={0.85} />);
   }
   gEls.push(<rect key="nut" x={XN - 3} y={GY(0) - 10} width={4} height={GY(5) - GY(0) + 20} fill={CLR.chalk} />);
-  [3, 5, 7, 9, 12].forEach(j => {
-    const k = Math.round((n * j) / 12);
-    if (k < 1 || k > n) return;
+  const inlays = new Map<number, number>();   // step → 12-EDO fret; in tiny worlds several share a step
+  [3, 5, 7, 9, 12].forEach(j => { const k = Math.round((n * j) / 12); if (k >= 1 && k <= n) inlays.set(k, j); });
+  inlays.forEach((j, k) => {
     const x = cellX(k);
     const ys = j === 12 ? [(GY(1) + GY(2)) / 2, (GY(3) + GY(4)) / 2] : [(GY(2) + GY(3)) / 2];
     ys.forEach((y, yi) => gEls.push(<circle key={`dot${j}-${yi}`} cx={x} cy={y} r={2.6} fill="rgba(244,241,232,.35)" />));
@@ -542,7 +543,7 @@ function Comp({ dials, setDial, locked, emit }: ToyInnerProps) {
         <svg viewBox={`0 0 ${W} ${GH}`} className="scope" {...gSurf} style={{ ...gSurf.style, marginTop: 8 }}>
           {gEls}
           <text x={X1} y={GH - 4} textAnchor="end" fontSize={9} fill={CLR.faint} fontFamily="monospace">
-            {n} frets to the fly · numbers = the steps nearest 12-EDO's 3rd, 5th, 7th, 9th and 12th frets
+            {n} fret{n === 1 ? "" : "s"} to the fly · numbers = the steps nearest 12-EDO's 3rd, 5th, 7th, 9th and 12th frets
           </text>
         </svg>
       )}
@@ -568,6 +569,12 @@ function Comp({ dials, setDial, locked, emit }: ToyInnerProps) {
         "barbershop" seventh) · C and vE (9 steps, the neutral third, about 11:9) · C and G (18 steps,
         a fifth 5¢ narrow). Turn on the home drone and the pure ones go still.
       </p>
+      <p className="smallnote">
+        Or start from nothing: slide to <b>1</b> and the fly is the only step, so all you can play is
+        octaves. <b>2</b> splits it at the tritone, <b>3</b> stacks major thirds, <b>4</b> stacks minor
+        thirds, and only at <b>5</b> does something like a fifth turn up. The blue ticks show every pure
+        ratio that world can't reach.
+      </p>
     </div>
   );
 }
@@ -575,10 +582,10 @@ function Comp({ dials, setDial, locked, emit }: ToyInnerProps) {
 export const def: ToyDef = {
   id: "edo-bench",
   title: "EDO Workbench",
-  blurb: "Any world (31 to start) on a guitar neck, a keyboard and a log/Hz pitch line, all in sync.",
+  blurb: "Any world from 1 to 72 steps (31 to start) on a guitar neck, a keyboard and a log/Hz pitch line, all in sync.",
   thread: "sound",
   dials: {
-    edo:    { type: "slider", min: 5, max: 72, step: 1, default: 31, label: "slices per fly (EDO)" },
+    edo:    { type: "slider", min: 1, max: 72, step: 1, default: 31, label: "slices per fly (EDO)" },
     line:   { type: "select", default: "log", label: "pitch line", options: [
       { value: "log", label: "log (equal ratio = equal distance)" },
       { value: "linear", label: "linear (equal Hz = equal distance)" },
