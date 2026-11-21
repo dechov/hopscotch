@@ -28,7 +28,7 @@ function TopControls() {
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <div className="wrap">
         <nav className="nav">
           <Link to="/" style={{ fontSize: 30 }}>🪨 hopscotch</Link>

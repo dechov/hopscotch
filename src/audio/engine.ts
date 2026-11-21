@@ -6,6 +6,10 @@ const listeners = new Set<() => void>();
 export function isArmed() { return armed; }
 export async function armAudio() {
   if (armed) return;
+  // iPhones mute Web Audio when the ring/silent switch is on silent unless the page says it
+  // plays media (Safari 16.4+); browsers without navigator.audioSession just skip this.
+  const nav = navigator as Navigator & { audioSession?: { type: string } };
+  if (nav.audioSession) nav.audioSession.type = "playback";
   await Tone.start();
   Tone.getDestination().volume.value = -6;
   armed = true;
