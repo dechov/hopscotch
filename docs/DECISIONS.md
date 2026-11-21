@@ -93,6 +93,10 @@ See `NAMING.md` for the full rationale and the list of names that were tried and
 
 ## 7. Deployment: Vercel + Supabase. Explicitly NOT AWS.
 
+> **Update (Nov 2026):** the app now deploys as a static site to GitHub Pages
+> (https://dechov.github.io/hopscotch/), like Paul's other projects. The reasoning below is
+> kept as history; nothing here needs a server yet.
+
 All audio is client-side Web Audio — **there is no server audio workload at all.** That means
 there's nothing AWS would buy that Vercel+Supabase doesn't already give more simply:
 

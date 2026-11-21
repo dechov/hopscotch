@@ -47,8 +47,9 @@ server audio workload exists. Vite + React 18 + TypeScript + MDX + Zustand + pit
   can also narrow presentation per lesson (`hide` / `choices` on `<Toy>` — see DECISIONS.md §3).
 - **Run `npm run build` before considering any change done** — it's `tsc --noEmit && vite
   build`, so it catches both type errors and real build failures in one command.
-- Deploy target is **Vercel + Supabase, no AWS** (see DECISIONS.md §7 for why) — don't
-  introduce server-side audio processing or infra that assumes a persistent server.
+- Deploy target is **GitHub Pages** (static, via `.github/workflows/deploy.yml` on push to
+  `main`); DECISIONS.md §7 has the earlier Vercel + Supabase plan. Don't introduce server-side
+  audio processing or infra that assumes a persistent server.
 
 ## Current state (update this section as you go)
 

@@ -72,12 +72,12 @@ src/pages/      Court, LessonPage, Shed (the toybox), Daw (the sketchbook)
 src/state/      zustand progress store (localStorage)
 ```
 
-## Deploying later
+## Deploying
 
-The plan (see build-decisions doc) is Vercel + Supabase. This build is Vite; the source
-layout maps 1:1 onto the planned Next.js app (lessons stay MDX, toys stay as-is). For a
-static deploy of THIS build: `npm run build`, serve `dist/`, and add an SPA fallback
-(all routes → index.html).
+Pushing to `main` builds the app and publishes it to GitHub Pages at
+https://dechov.github.io/hopscotch/ (see `.github/workflows/deploy.yml`). Production builds use
+the `/hopscotch/` base path, and the workflow copies `index.html` to `404.html` so deep links
+like `/hopscotch/shed` still load. One-time setup: Settings -> Pages -> Source: "GitHub Actions".
 
 ## Known edges (v1)
 
