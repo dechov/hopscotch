@@ -86,12 +86,12 @@ function Comp({ dials, setDial, locked, emit }: ToyInnerProps) {
   function keysSynth() {
     if (!inst.current.keys) {
       const k = new Tone.PolySynth(Tone.FMSynth, {
-        harmonicity: 1, modulationIndex: 2.6,
-        oscillator: { type: "sine" }, modulation: { type: "sine" },
+        harmonicity: 1, modulationIndex: 3.2,
+        oscillator: { type: "triangle" }, modulation: { type: "sine" },
         envelope: { attack: 0.003, decay: 2.4, sustain: 0.04, release: 0.9 },
         modulationEnvelope: { attack: 0.002, decay: 0.45, sustain: 0.12, release: 0.5 },
       }).toDestination();
-      k.volume.value = -13;
+      k.volume.value = -2;   // the FM keys read much quieter than the pluck and saw at equal dB
       inst.current.keys = k;
     }
     return inst.current.keys;
@@ -197,7 +197,7 @@ function Comp({ dials, setDial, locked, emit }: ToyInnerProps) {
   });
 
   // shared pointer plumbing for all three surfaces
-  function surface(view: View, h: number, hitAt: (x: number, y: number) => Hit) {
+  function surface(view: View, h: number, hitAt: (x: number, y: number, held?: Voice) => Hit) {
     return {
       onPointerDown: (e: ReactPointerEvent<SVGSVGElement>) => {
         e.currentTarget.setPointerCapture(e.pointerId);
@@ -206,8 +206,9 @@ function Comp({ dials, setDial, locked, emit }: ToyInnerProps) {
       },
       onPointerMove: (e: ReactPointerEvent<SVGSVGElement>) => {
         const { x, y } = svgPoint(e, e.currentTarget, h);
-        const hit = hitAt(x, y);
-        if (vRef.current[e.pointerId]) drag(e.pointerId, hit);
+        const heldV = vRef.current[e.pointerId];
+        const hit = hitAt(x, y, heldV);
+        if (heldV) drag(e.pointerId, hit);
         else if (e.pointerType === "mouse") setHover(hit ? { p: hit.p, exact: hit.exact } : null);
       },
       onPointerUp: (e: ReactPointerEvent<SVGSVGElement>) => release(e.pointerId),
@@ -316,7 +317,6 @@ function Comp({ dials, setDial, locked, emit }: ToyInnerProps) {
   }
 
   // ════════════════ keyboard ════════════════
-  const iso = dials.keys === "iso";
   const KT = 4;
   const naturals: number[] = [];
   for (let p = pLo; p <= pHi; p++) if (sp[pcOf(p, n)].natural) naturals.push(p);
@@ -339,32 +339,30 @@ function Comp({ dials, setDial, locked, emit }: ToyInnerProps) {
   if (isoFallback) { isoW = Math.max(1, info.W); isoU = 1; }
   const ROWS = [2, 1, 0, -1, -2], KRH = 30;
   const isoKeys: { p: number; x: number; y: number }[] = [];
-  if (iso) ROWS.forEach((r, ri) => {
+  ROWS.forEach((r, ri) => {
     const y = KT + ri * KRH + KRH / 2;
     for (let c = Math.ceil((pLo - r * isoU) / isoW); c * isoW + r * isoU <= pHi; c++) {
       const p = c * isoW + r * isoU;
       isoKeys.push({ p, x: xLog(p), y });
     }
   });
-  let isoR = 16;
-  if (iso) {
-    let md = Infinity;
-    for (let dr = 0; dr <= 3; dr++) for (let dc = -4; dc <= 4; dc++) {
-      if (!dr && dc <= 0) continue;
-      md = Math.min(md, Math.hypot((dc * isoW + dr * isoU) * colW, dr * KRH));
-    }
-    isoR = Math.max(3, Math.min(14, md * 0.46));
+  let md = Infinity;
+  for (let dr = 0; dr <= 3; dr++) for (let dc = -4; dc <= 4; dc++) {
+    if (!dr && dc <= 0) continue;
+    md = Math.min(md, Math.hypot((dc * isoW + dr * isoU) * colW, dr * KRH));
   }
-  const KH = iso ? ROWS.length * KRH : 112;
+  const isoR = Math.max(3, Math.min(14, md * 0.46));
+  const KH = 112, IH = ROWS.length * KRH;   // piano-style height, isomorphic height
   const accW = Math.min(colW - 1.2, 34);   // in tiny worlds a column is huge; keep dark keys key-sized
-  const KBH = KT + KH + (bearings ? 16 : 6);
+  const BAND = bearings ? 16 : 6;
+  const KBH = KT + KH + BAND, IBH = KT + IH + BAND;
 
+  const isoHit = (x: number, y: number): Hit => {
+    let best: number | null = null, bd = Infinity;
+    for (const k of isoKeys) { const d = Math.hypot(k.x - x, k.y - y); if (d < bd) { bd = d; best = k.p; } }
+    return best != null && bd < Math.max(isoR * 1.4, 10) ? { p: best, exact: best } : null;
+  };
   const keyHit = (x: number, y: number): Hit => {
-    if (iso) {
-      let best: number | null = null, bd = Infinity;
-      for (const k of isoKeys) { const d = Math.hypot(k.x - x, k.y - y); if (d < bd) { bd = d; best = k.p; } }
-      return best != null && bd < Math.max(isoR * 1.4, 10) ? { p: best, exact: best } : null;
-    }
     const p = Math.round((x - X0) / colW - 0.5) + pLo;
     if (p < pLo || p > pHi) return null;
     if (!sp[pcOf(p, n)].natural && y - KT < KH * tierFrac(p) && Math.abs(x - xLog(p)) <= accW / 2) return { p, exact: p };
@@ -374,8 +372,8 @@ function Comp({ dials, setDial, locked, emit }: ToyInnerProps) {
     return { p: nat, exact: nat };
   };
 
-  const keyEls: ReactElement[] = [];
-  if (!iso) {
+  const keyEls: ReactElement[] = [], isoEls: ReactElement[] = [];
+  {
     naturals.forEach((p, i) => {
       const prev = i > 0 ? naturals[i - 1] : null, next = i + 1 < naturals.length ? naturals[i + 1] : null;
       const xa = prev == null ? xLog(p) - colW / 2 : xLog((prev + p) / 2);
@@ -405,11 +403,12 @@ function Comp({ dials, setDial, locked, emit }: ToyInnerProps) {
         </g>
       );
     }
-  } else {
+  }
+  {
     isoKeys.forEach(({ p, x, y }, i) => {
       const s = sp[pcOf(p, n)], l = lit(p);
       const fill = l === "on" ? CLR.good : l === "focus" ? "#6f8f74" : s.natural ? "#e9e5d8" : accFill(p);
-      keyEls.push(
+      isoEls.push(
         <g key={`i${i}`}>
           <circle cx={x} cy={y} r={isoR} fill={fill}
             stroke={l === "hover" ? CLR.sound : pcOf(p, n) === homePc ? CLR.home : sameClass(p) ? CLR.chalk : "#14161a"}
@@ -422,15 +421,19 @@ function Comp({ dials, setDial, locked, emit }: ToyInnerProps) {
       );
     });
   }
-  if (bearings) bearingsIn(pLo - 0.5, pHi + 0.5).forEach(({ p, midi }) => {
-    const x = xLog(p), y = KT + KH + 3;
-    keyEls.push(
-      <g key={`kb${midi}`}>
-        <line x1={x} x2={x} y1={y} y2={y + 6} stroke={CLR.moves} strokeWidth={1.2} opacity={0.8} />
-        {midi % 12 === 0 && <text x={x + 2} y={y + 13} fontSize={8} fill={CLR.moves} fontFamily="monospace">{midiName(midi)}</text>}
-      </g>
-    );
-  });
+  const band = (els: ReactElement[], top: number) => {
+    if (bearings) bearingsIn(pLo - 0.5, pHi + 0.5).forEach(({ p, midi }) => {
+      const x = xLog(p), y = top + 3;
+      els.push(
+        <g key={`kb${midi}`}>
+          <line x1={x} x2={x} y1={y} y2={y + 6} stroke={CLR.moves} strokeWidth={1.2} opacity={0.8} />
+          {midi % 12 === 0 && <text x={x + 2} y={y + 13} fontSize={8} fill={CLR.moves} fontFamily="monospace">{midiName(midi)}</text>}
+        </g>
+      );
+    });
+  };
+  band(keyEls, KT + KH);
+  band(isoEls, KT + IH);
 
   // ════════════════ guitar neck ════════════════
   const XN = X0 + 22, GL = 2 * (X1 - 6 - XN);
@@ -439,9 +442,10 @@ function Comp({ dials, setDial, locked, emit }: ToyInnerProps) {
   const GH = 152;
   const opens = OPEN.map(([L, o]) => letterPc(L, info) + n * (o - 4));
   const cellX = (k: number) => (k === 0 ? (X0 + XN) / 2 - 2 : (fretX(k - 1) + fretX(k)) / 2);
-  const guitarHit = (x: number, y: number): Hit => {
-    const si = Math.round((y - GY(0)) / 17);
-    if (si < 0 || si >= OPEN.length || Math.abs(y - GY(si)) > 10) return null;
+  const guitarHit = (x: number, y: number, held?: Voice): Hit => {
+    // a held finger stays on the string it went down on and only slides along it
+    const si = held?.string ?? Math.round((y - GY(0)) / 17);
+    if (si < 0 || si >= OPEN.length || (held == null && Math.abs(y - GY(si)) > 10)) return null;
     let k: number;
     if (x < XN) k = 0;
     else { const t = Math.min(0.5, (x - XN) / GL); k = Math.max(1, Math.min(n, Math.ceil(-n * Math.log2(1 - t) - 1e-9))); }
@@ -511,6 +515,7 @@ function Comp({ dials, setDial, locked, emit }: ToyInnerProps) {
 
   const lineSurf = surface("line", LH, (x) => lineHit(x));
   const keySurf = surface("keys", KBH, keyHit);
+  const isoSurf = surface("keys", IBH, isoHit);
   const gSurf = surface("guitar", GH, guitarHit);
 
   return (
@@ -539,6 +544,12 @@ function Comp({ dials, setDial, locked, emit }: ToyInnerProps) {
         </svg>
       )}
 
+      {dials.showIso && (
+        <svg viewBox={`0 0 ${W} ${IBH}`} className="scope" {...isoSurf} style={{ ...isoSurf.style, marginTop: 8 }}>
+          {isoEls}
+        </svg>
+      )}
+
       {dials.showGuitar && (
         <svg viewBox={`0 0 ${W} ${GH}`} className="scope" {...gSurf} style={{ ...gSurf.style, marginTop: 8 }}>
           {gEls}
@@ -550,19 +561,21 @@ function Comp({ dials, setDial, locked, emit }: ToyInnerProps) {
 
       <Readout items={items.length ? items : [["note", "play anything — it lights up everywhere"]]} />
 
-      <Dials names={["edo", "line", "keys", "snap", "home", "ratios", "span", "drone", "bearings", "showLine", "showKeys", "showGuitar"]}
+      <Dials names={["edo", "line", "snap", "home", "ratios", "span", "drone", "bearings", "showLine", "showKeys", "showIso", "showGuitar"]}
         specs={def.dials} values={dials} locked={locked} set={setDial} />
 
       <p className="smallnote">
-        One world, three ways in. The <b>keyboard</b> has a column for every step, sitting right over
+        One world, four ways in. The <b>piano-style keys</b> have a column for every step, sitting right over
         its tick on the <b>log</b> pitch line: naturals are the white keys, the dark keys are the ♯s
         (blue-ish) and ♭s (brown-ish), and the short grey ones are steps the chain of fifths doesn't name,
-        spelled with ups and downs (<b>^</b> = one step up, <b>v</b> = one step down). The <b>guitar</b> puts
+        spelled with ups and downs (<b>^</b> = one step up, <b>v</b> = one step down). Under them, the
+        <b>isomorphic keys</b> lay the same steps out Bosanquet-style: right is a whole tone, up is a ♯,
+        so every chord shape plays the same in any key. The <b>guitar</b> puts
         frets where they really go, so they crowd toward the body. Flip the pitch line to <b>linear</b> to see
         what equal Hz looks like: the low flies squash and the high ones stretch. Coral marks are the
         familiar 12-EDO notes and frets; blue ticks are pure ratios over home. Hold two notes to hear and
         read the interval.
-        {isoFallback && iso && <> (This world's ♯ doesn't make a full isomorphic grid, so up is one step here.)</>}
+        {isoFallback && dials.showIso && <> (This world's ♯ doesn't make a full isomorphic grid, so up is one step here.)</>}
       </p>
       <p className="smallnote">
         In 31, try: C and E (10 steps, a pure skip 5:4 within a cent) · C and A♯ (25 steps, the 7:4
@@ -582,17 +595,13 @@ function Comp({ dials, setDial, locked, emit }: ToyInnerProps) {
 export const def: ToyDef = {
   id: "edo-bench",
   title: "EDO Workbench",
-  blurb: "Any world from 1 to 72 steps (31 to start) on a guitar neck, a keyboard and a log/Hz pitch line, all in sync.",
+  blurb: "Any world from 1 to 72 steps (31 to start) on a guitar neck, two keyboards and a log/Hz pitch line, all in sync.",
   thread: "sound",
   dials: {
     edo:    { type: "slider", min: 1, max: 72, step: 1, default: 31, label: "slices per fly (EDO)" },
     line:   { type: "select", default: "log", label: "pitch line", options: [
       { value: "log", label: "log (equal ratio = equal distance)" },
       { value: "linear", label: "linear (equal Hz = equal distance)" },
-    ]},
-    keys:   { type: "select", default: "strip", label: "keyboard", options: [
-      { value: "strip", label: "piano-style, one key per step" },
-      { value: "iso", label: "isomorphic (Bosanquet-style)" },
     ]},
     snap:   { type: "select", default: "steps", label: "pitch line snaps to", options: [
       { value: "steps", label: "the world's steps" },
@@ -612,7 +621,8 @@ export const def: ToyDef = {
     drone:      { type: "toggle", default: false, label: "home drone" },
     bearings:   { type: "toggle", default: true, label: "12-EDO bearings" },
     showLine:   { type: "toggle", default: true, label: "pitch line" },
-    showKeys:   { type: "toggle", default: true, label: "keyboard" },
+    showKeys:   { type: "toggle", default: true, label: "piano-style keys" },
+    showIso:    { type: "toggle", default: true, label: "isomorphic keys" },
     showGuitar: { type: "toggle", default: true, label: "guitar" },
   },
   component: Comp,
